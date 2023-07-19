@@ -1,0 +1,29 @@
+.wrap-categories {
+  width: 100%;
+  margin-top: 18px;
+  position: relative;
+  max-height: 920px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 13px;
+  grid-auto-flow: dense;
+  justify-content: center;
+}
+
+.category-card {
+  width: 100%;
+  min-width: 168px;
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  max-width: 204px;
+  grid-column-end: span 1;
+  grid-row-end: span 1;
+}
