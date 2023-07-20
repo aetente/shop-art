@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center pt-24 pb-24 max-w-7xl m-auto">
       <div className='flex items-center justify-between w-full'>
 
         <div className='flex items-center justify-between gap-2'>
@@ -34,7 +34,7 @@ export default function Home() {
       <div className="relative w-full h-96 mt-10">
         <Image
           layout='fill'
-          src="/test/test10im2.png"
+          src="/test/test_image1.jpg"
           alt='ACCOUNT'
           style={{objectFit: 'cover'}}
         />
