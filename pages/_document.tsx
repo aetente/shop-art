@@ -7,7 +7,9 @@ class MyDocument extends Document {
         <Head>
         </Head>
         <body>
-          <Main />
+          <div className='max-w-7xl m-auto min-h-screen'>
+            <Main />
+          </div>
           <NextScript />
         </body>
       </Html>

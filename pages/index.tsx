@@ -2,14 +2,16 @@ import AboutMe from '@/components/about-me'
 import Categories from '@/components/categories'
 import Menu from '@/components/menu'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 export default function Home() {
 
   const [openMenu, setOpenMenu] = useState(false)
+  const router = useRouter()
 
   return (
-    <main className="flex min-h-screen flex-col items-center pt-24 pb-24 max-w-7xl m-auto">
+    <main className="flex min-h-screen flex-col items-center pt-24 pb-24">
       <div className='flex items-center justify-between w-full'>
 
         <div>
@@ -33,7 +35,12 @@ export default function Home() {
             }} /> : <></>}
         </div>
 
-        <div className='flex items-center justify-between gap-2'>
+        <div
+          className='flex items-center justify-between gap-2 cursor-pointer'
+          onClick={() => {
+            router.push('/login')
+          }}
+        >
           <div className="relative w-[32px] h-[32px]">
             <Image
               layout='fill'
