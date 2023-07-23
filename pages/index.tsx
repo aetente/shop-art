@@ -1,21 +1,36 @@
 import AboutMe from '@/components/about-me'
 import Categories from '@/components/categories'
+import Menu from '@/components/menu'
 import Image from 'next/image'
+import { useState } from 'react'
 
 export default function Home() {
+
+  const [openMenu, setOpenMenu] = useState(false)
+
   return (
     <main className="flex min-h-screen flex-col items-center pt-24 pb-24 max-w-7xl m-auto">
       <div className='flex items-center justify-between w-full'>
 
-        <div className='flex items-center justify-between gap-2'>
-          <div className="relative w-[32px] h-[32px]">
-            <Image
-              layout='fill'
-              src="/icons/burger.png"
-              alt='MENU'
-            />
+        <div>
+          <div
+            className='relative flex items-center justify-between gap-2 cursor-pointer'
+            onClick={() => {
+              setOpenMenu(!openMenu)
+            }}
+          >
+            <div className="relative w-[32px] h-[32px]">
+              <Image
+                layout='fill'
+                src="/icons/burger.png"
+                alt='MENU'
+              />
+            </div>
+            <p>MENU</p>
           </div>
-          <p>MENU</p>
+          {openMenu ? <Menu onClose={() => {
+              setOpenMenu(false)
+            }} /> : <></>}
         </div>
 
         <div className='flex items-center justify-between gap-2'>
@@ -36,14 +51,14 @@ export default function Home() {
           layout='fill'
           src="/test/test_image1.jpg"
           alt='ACCOUNT'
-          style={{objectFit: 'cover'}}
+          style={{ objectFit: 'cover' }}
         />
       </div>
-      
+
       <div className="relative w-full mt-10">
         <Categories />
       </div>
-      
+
       <div className="relative w-full mt-10">
         <AboutMe />
       </div>
