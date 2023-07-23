@@ -1,11 +1,20 @@
-import Image from "next/image"
+import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 function CartItem() {
+
+  const router = useRouter()
+
   return (
 
     <div className='flex gap-4 justify-between items-center p-4 border-solid border-[1px] border-r-0 border-l-0 border-black'>
       <div className='flex gap-4'>
-        <div className="relative min-w-[168px] min-h-[168px]">
+        <div
+          className='relative min-w-[168px] min-h-[168px] cursor-pointer'
+          onClick={() => {
+            router.push('/item')
+          }}
+        >
           <Image
             layout='fill'
             src='/test/test_image1.jpg'
@@ -19,7 +28,7 @@ function CartItem() {
         </div>
         <div>
           <div className='text-4xl'>SVG File</div>
-          <div className="text-red-500">Delete</div>
+          <div className='text-red-500'>Delete</div>
         </div>
       </div>
 
