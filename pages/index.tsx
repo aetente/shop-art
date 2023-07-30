@@ -1,14 +1,19 @@
 import AboutMe from '@/components/about-me'
 import Categories from '@/components/categories'
 import Menu from '@/components/menu'
+import { getCategories } from '@/requests/categories'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
 
   const [openMenu, setOpenMenu] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    getCategories()
+  }, [])
 
   return (
     <main className="flex min-h-screen flex-col items-center pt-24 pb-24">
