@@ -3,6 +3,7 @@ import '../styles/globals.css'
 import '../styles/categories.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,8 +18,13 @@ export default function RootLayout({
 }: any) {
   return (
     <>
-      <Header />
-      <Component {...pageProps} />
+
+      <PayPalScriptProvider options={{ clientId: (process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string) }}>
+        <>
+          <Header />
+          <Component {...pageProps} />
+        </>
+      </PayPalScriptProvider>
     </>
   )
 }
