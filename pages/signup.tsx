@@ -2,7 +2,7 @@ import { useState } from "react"
 import { signUp } from '@/requests/signup'
 import { useRouter } from "next/router";
 
-function Login() {
+function SignUp() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,10 +19,7 @@ function Login() {
       }
     }
   }
-
-  console.log('email', email)
-  console.log('password', password)
-
+  
   return (
     <div className='min-h-screen flex justify-center items-center'>
       <div className="min-h-[360px] max-w-md bg-slate-200 m-auto p-12 flex flex-col justify-center items-center gap-8">
@@ -46,4 +43,4 @@ function Login() {
   )
 }
 
-export default Login
+export default SignUp
