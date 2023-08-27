@@ -1,6 +1,7 @@
 import AboutMe from '@/components/about-me'
 import Categories from '@/components/categories'
 import Menu from '@/components/menu'
+import { useUserContext } from '@/providers/UserProvider'
 import { getCategories } from '@/requests/categories'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -10,6 +11,9 @@ export default function Home() {
 
   const [openMenu, setOpenMenu] = useState(false)
   const router = useRouter()
+
+
+  const { isLoggedIn } = useUserContext()
 
   useEffect(() => {
     getCategories()
@@ -36,8 +40,8 @@ export default function Home() {
             <p>MENU</p>
           </div>
           {openMenu ? <Menu onClose={() => {
-              setOpenMenu(false)
-            }} /> : <></>}
+            setOpenMenu(false)
+          }} /> : <></>}
         </div>
 
         <div
@@ -46,14 +50,18 @@ export default function Home() {
             router.push('/login')
           }}
         >
-          <div className="relative w-[32px] h-[32px]">
-            <Image
-              layout='fill'
-              src="/icons/avatar_placeholder.png"
-              alt='ACCOUNT'
-            />
-          </div>
-          <p>ACCOUNT</p>
+          {isLoggedIn ? (<>
+            <div className="relative w-[32px] h-[32px]">
+              <Image
+                layout='fill'
+                src="/icons/avatar_placeholder.png"
+                alt='ACCOUNT'
+              />
+            </div>
+            <p>ACCOUNT</p>
+          </>) : (
+            <p>LOG IN</p>
+          )}
         </div>
 
       </div>

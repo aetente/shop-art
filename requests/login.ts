@@ -14,17 +14,17 @@ export async function  logIn(identifier:any, password:any) {
         password,
       })
     })
-
-    // setCookie({ res }, 'jwt', postRes.data.jwt, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV !== 'development',
-    //   maxAge: 30 * 24 * 60 * 60,
-    //   path: '/',
-    // });
     
-    console.log('logIn res', res)
     const data = await res.json()
     console.log('logIn', data)
+
+    setCookie({ res }, 'jwt', data.jwt, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV !== 'development',
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+    localStorage.setItem('loggedIn', 'true');
     return true;
   } catch (e) {
     console.error('Error LOG IN:', e)
