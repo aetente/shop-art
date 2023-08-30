@@ -2,6 +2,7 @@ import { useUserContext } from "@/providers/UserProvider";
 import { logIn } from "@/requests/login";
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react";
+import nookies from 'nookies';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -26,6 +27,37 @@ function Login() {
   const doLogOut = () => {
     setLoggedOut();
     router.push('/');
+  }
+
+  const doDownload = async () => {
+
+    const cookies = nookies.get();
+    if (cookies['jwt']) {
+      try {
+        var options = {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Origin': '',
+            'Host': 'api.producthunt.com',
+            'Authorization': `Token ${cookies['jwt']}`
+          }
+        }
+        // await fetch('http://localhost:1337/uploads/wordpress_6_2_2_dfdebd56fe.zip', options)
+        await fetch('http://localhost:1337/uploads/Yehoshua_Kopirin_Frontend_Resume_5202e5d14e.pdf', options)
+        // await fetch('http://localhost:1337/uploads/blot2_strech_288a56fce2.png', options)
+        // await fetch('http://localhost:1337/api/upload/files/1', options)
+          .then(response => response.blob())
+          .then(blob => URL.createObjectURL(blob))
+          .then(url => {
+            window.open(url, '_blank');
+            URL.revokeObjectURL(url);
+          });
+      } catch (e) {
+        console.error('ERROR downloading the file', e);
+      }
+    }
   }
 
   return (
@@ -68,6 +100,14 @@ function Login() {
               className={`bg-blue-500 text-gray-50 p-4 w-full`}
             >
               LOG OUT
+            </button>
+            <button
+              onClick={() => {
+                doDownload();
+              }}
+              className={`bg-blue-500 text-gray-50 p-4 w-full`}
+            >
+              DOWNLOAD
             </button>
           </>
 
