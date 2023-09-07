@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import { UserProvider } from '@/providers/UserProvider'
+import { ShoppingCartProvider } from '@/providers/ShoppinCartProvider'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -20,14 +21,16 @@ export default function RootLayout({
 
   return (
     <>
-      <UserProvider>
-        <PayPalScriptProvider options={{ clientId: (process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string) }}>
-          <>
-            <Header />
-            <Component {...pageProps} />
-          </>
-        </PayPalScriptProvider>
-      </UserProvider>
+      <PayPalScriptProvider options={{ clientId: (process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string) }}>
+        <UserProvider>
+          <ShoppingCartProvider>
+            <>
+              <Header />
+              <Component {...pageProps} />
+            </>
+          </ShoppingCartProvider>
+        </UserProvider>
+      </PayPalScriptProvider>
     </>
   )
 }

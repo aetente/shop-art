@@ -1,9 +1,13 @@
+import { useShoppingCartContext } from '@/providers/ShoppinCartProvider';
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import Cart from '../cart';
 
 function Header() {
-  
+
   const router = useRouter()
+
+  const { setShowCart } = useShoppingCartContext();
 
   return (
     <div className='pr-24 pl-24 fixed w-full h-20 bg-slate-200 z-30 left-0'>
@@ -29,15 +33,17 @@ function Header() {
           </div>
           <div
             className='relative w-[32px] h-[32px] cursor-pointer'
-            onClick={() => {
-              router.push('/cart')
-            }}
+            // onClick={() => {
+            //   router.push('/cart')
+            // }}
+            onClick={() => setShowCart((prevState: any) => !prevState)}
           >
             <Image
               layout='fill'
               src='/icons/cart.png'
               alt='cart'
             />
+            <Cart />
           </div>
         </div>
       </div>
