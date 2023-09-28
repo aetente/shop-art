@@ -7,10 +7,10 @@ export const ShoppingCartProvider: React.FC<{
   children: any
 }> = ({ children }) => {
   const cartCookie =
-  nookies.get()["cart"] !== "undefined" ? nookies.get()["cart"] : null;
+    nookies.get()["cart"] !== "undefined" ? nookies.get()["cart"] : null;
 
   const [user, setUser] = useState(null);
-  const [showCart, setShowCart] = useState(true);
+  const [showCart, setShowCart] = useState(false);
   const [cart, setCart] = useState(
     cartCookie ? JSON.parse(cartCookie) : { items: [], total: 0 }
   );
@@ -37,7 +37,7 @@ export const ShoppingCartProvider: React.FC<{
       }));
     } else {
       setCart((prevCart: any) => ({
-        items: prevCart.items.map((i) =>
+        items: prevCart.items.map((i: any) =>
           i.id === newItem.id ? { ...i, quantity: i.quantity + 1 } : i
         ),
         total: prevCart.total + item.attributes.price,
@@ -45,18 +45,45 @@ export const ShoppingCartProvider: React.FC<{
     }
   };
 
+  const setItemQuantityById = (id: number, quantity: number) => {
+    let foundItem = cart.items.find((i: any) => i.id === id);
+    const previousItemTotal = foundItem.attributes.price * foundItem.quantity;
+    if (quantity > 0) {
+      setCart((prevCart: any) => ({
+        items: prevCart.items.map((i:any) =>
+          i.id === foundItem.id ? { ...i, quantity } : i
+        ),
+        total: prevCart.total - previousItemTotal + foundItem.attributes.price * quantity,
+      }));
+    } else {
+      setCart((prevCart: any) => ({
+        items: prevCart.items.filter((i: any) => i.id !== id),
+        total: prevCart.total - previousItemTotal,
+      }));
+    }
+  }
+
+  const removeWholeItem = (id: number) => {
+    let foundItem = cart.items.find((i: any) => i.id === id);
+    const previousItemTotal = foundItem.attributes.price * foundItem.quantity;
+    setCart((prevCart: any) => ({
+      items: prevCart.items.filter((i: any) => i.id !== id),
+      total: prevCart.total - previousItemTotal,
+    }));
+  }
+
   const removeItem = (item: any) => {
-    let newItem = cart.items.find((i) => i.id === item.id);
+    let newItem = cart.items.find((i: any) => i.id === item.id);
     if (newItem.quantity > 1) {
       setCart((prevCart: any) => ({
-        items: prevCart.items.map((i) =>
+        items: prevCart.items.map((i: any) =>
           i.id === newItem.id ? { ...i, quantity: i.quantity - 1 } : i
         ),
         total: prevCart.total - item.attributes.price,
       }));
     } else {
       setCart((prevCart: any) => ({
-        items: prevCart.items.filter((i) => i.id !== item.id),
+        items: prevCart.items.filter((i: any) => i.id !== item.id),
         total: prevCart.total - item.attributes.price,
       }));
     }
@@ -74,9 +101,11 @@ export const ShoppingCartProvider: React.FC<{
         cart,
         addItem,
         removeItem,
+        removeWholeItem,
         resetCart,
         showCart,
         setShowCart,
+        setItemQuantityById
       }}
     >
       {children}

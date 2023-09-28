@@ -82,6 +82,7 @@ function Items() {
   return (
     <div className='w-full grid grid-flow-column grid-cols-6 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
       {Array(20).fill({
+        id: Math.round(Math.random()),
         name: 'item',
         img: '/test/test_image1.jpg',
         attributes: {

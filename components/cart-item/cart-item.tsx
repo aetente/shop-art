@@ -1,8 +1,18 @@
+import { useShoppingCartContext } from '@/providers/ShoppinCartProvider'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-function CartItem() {
+interface Props {
+  name: string
+  price: number
+  quantity: number
+  img: string
+  id: number
+}
 
+function CartItem(props: Props) {
+
+  const { addItem, removeItem, setItemQuantityById, removeWholeItem } = useShoppingCartContext();
   const router = useRouter()
 
   return (
@@ -17,8 +27,8 @@ function CartItem() {
         >
           <Image
             layout='fill'
-            src='/test/test_image1.jpg'
-            alt='item'
+            src={props.img}
+            alt={props.name}
             style={{
               objectFit: 'cover',
               // width: '100%',
@@ -27,15 +37,24 @@ function CartItem() {
           />
         </div>
         <div>
-          <div className='text-4xl'>SVG File</div>
-          <div className='text-red-500'>Delete</div>
+          <div className='text-4xl'>{props.name}</div>
+          <div className='text-red-500' onClick={() => {
+            removeWholeItem(props.id);
+          }}>Delete</div>
         </div>
       </div>
 
-      <input type='number' defaultValue={2} className='min-w-[48px] w-12 border-solid border-[1px] border-black text-center' />
+      <input
+        type='number'
+        defaultValue={props.quantity}
+        className='min-w-[48px] w-12 border-solid border-[1px] border-black text-center'
+        onChange={(e: any) => {
+          setItemQuantityById(props.id, +e.target.value)
+        }}
+      />
 
       <div>
-        $2.00
+        ${Math.round(props.price * 100 * props.quantity) / 100}
       </div>
     </div>
   )

@@ -1,19 +1,35 @@
 import { useRouter } from "next/router";
 import { useShoppingCartContext } from "@/providers/ShoppinCartProvider";
 import { useUserContext } from "@/providers/UserProvider";
+import Image from "next/image";
 
 
 function CartItem({ data }: any) {
   const { addItem, removeItem } = useShoppingCartContext();
-  const { quantity, attributes } = data;
+  const { quantity, attributes, name, img } = data;
 
   return (
     <div className="p-6 flex flex-wrap justify-between border-b border-blueGray-800">
       <div className="w-2/4">
         <div className="flex flex-col h-full">
-          <h6 className="font-bold text-white mb-1">{attributes.name}</h6>
+          <h6 className="font-bold text-white mb-1">{name}</h6>
+          
+          <div
+            className='relative w-[16px] h-[16px] min-w-[16px] min-h-[16px] mt-2 cursor-pointer'
+          >
+            <Image
+              layout='fill'
+              src={img}
+              alt={name}
+              style={{
+                objectFit: 'cover',
+                // width: '100%',
+                // height: 'auto'
+              }}
+            />
+          </div>
           <span className="block pb-4 mb-auto font-medium text-gray-400">
-            {quantity} x ${attributes.price}
+            {quantity} x ${Math.round(attributes.price * 100) / 100}
           </span>
         </div>
       </div>
@@ -34,7 +50,7 @@ function CartItem({ data }: any) {
             </button>
           </div>
           <span className="block mt-2 text-sm font-bold text-white">
-            ${attributes.price * quantity}
+            ${Math.round(attributes.price * 100 * quantity) / 100 }
           </span>
         </div>
       </div>
@@ -62,7 +78,7 @@ function Cart() {
     <section className="absolute right-0 top-[32px] min-w-[320px]">
       <div className="relative">
         {showCart && (
-          <div className="rounded-3xl co bg-gray-800">
+          <div className="rounded-lg co bg-gray-800">
             <div className="max-w-lg pt-6 pb-8 px-8 mx-auto">
               <div className="flex mb-10 items-center justify-between">
                 <h6 className="font-bold text-2xl text-white mb-0">
@@ -83,7 +99,7 @@ function Cart() {
                 <div className="flex mb-6 content-center justify-between">
                   <span className="font-bold text-white">Order total</span>
                   <span className="text-sm font-bold text-white">
-                    ${displayTotal}
+                    ${Math.round(displayTotal * 100) / 100}
                   </span>
                 </div>
                 <button
