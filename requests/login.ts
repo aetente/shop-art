@@ -18,7 +18,19 @@ export async function  logIn(identifier:any, password:any) {
     const data = await res.json()
     console.log('logIn', data)
 
+    if (data?.error) {
+      return false
+    }
+
+    console.log(data.jwt)
+
     setCookie({ res }, 'jwt', data.jwt, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV !== 'development',
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+    setCookie({ res }, 'userId', data.user.id, {
       httpOnly: false,
       secure: process.env.NODE_ENV !== 'development',
       maxAge: 30 * 24 * 60 * 60,

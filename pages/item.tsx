@@ -1,9 +1,17 @@
 import Image from 'next/image'
 import { PayPalButtons } from '@paypal/react-paypal-js'
+import nookies from 'nookies';
+import { updateUser } from '@/requests/updateUser';
 
 function Item() {
 
+  
+  const cookies = nookies.get();
+  const userId = cookies['userId'];
+  console.log('userId', userId)
+
   function createOrder() {
+    console.log("createOrder")
     return fetch("/api/create-paypal-order", {
       method: "POST",
       headers: {
@@ -14,16 +22,27 @@ function Item() {
       body: JSON.stringify({
         cart: [
           {
-            id: "YOUR_PRODUCT_ID",
-            quantity: "YOUR_PRODUCT_QUANTITY",
+            id: "1",
+            quantity: "1",
           },
         ],
       }),
     })
       .then((response) => response.json())
-      .then((order) => order.id);
+      .then((order) => order.id)
+      .catch((e) => {
+        console.error("Create Order error", e)
+      });
   }
   function onApprove(data: any) {
+    console.log("onApprove")
+    const cookies = nookies.get();
+    const userId = cookies['userId'];
+    if (userId) {
+      updateUser(userId, {
+        file_downloads: [2]
+      });
+    }
     return fetch("/api/capture-paypal-order", {
       method: "POST",
       headers: {
@@ -36,7 +55,10 @@ function Item() {
       .then((response) => response.json())
       .then((orderData) => {
         const name = orderData.payer.name.given_name;
-        alert(`Transaction completed by ${name}`);
+        // alert(`Transaction completed by ${name}`);
+      })
+      .catch((e) => {
+        console.error("Approve error", e)
       });
 
   }
