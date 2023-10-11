@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setCookie } from 'nookies'
 
-export async function  logIn(identifier:any, password:any) {
+export async function logIn(identifier: any, password: any) {
 
   try {
     const res = await fetch('http://localhost:1337/api/auth/local', {
@@ -14,7 +14,7 @@ export async function  logIn(identifier:any, password:any) {
         password,
       })
     })
-    
+
     const data = await res.json()
     console.log('logIn', data)
 
@@ -22,8 +22,21 @@ export async function  logIn(identifier:any, password:any) {
       return false
     }
 
-    console.log(data.jwt)
 
+    const meRes = await fetch('http://localhost:1337/api/users/me?populate=*', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${data.jwt}`,
+        "Content-Type": "application/json",
+      }
+    })
+    
+    const meData = await meRes.json();
+
+    console.log(data.jwt)
+    console.log("meData", meData)
+
+    localStorage.setItem("filesDownloads", JSON.stringify(meData.file_downloads));
     setCookie({ res }, 'jwt', data.jwt, {
       httpOnly: false,
       secure: process.env.NODE_ENV !== 'development',

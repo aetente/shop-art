@@ -5,12 +5,12 @@ import { updateUser } from '@/requests/updateUser';
 
 function Item() {
 
-  
+
   const cookies = nookies.get();
   const userId = cookies['userId'];
   console.log('userId', userId)
 
-  function createOrder() {
+  const createOrder = () => {
     console.log("createOrder")
     return fetch("/api/create-paypal-order", {
       method: "POST",
@@ -34,15 +34,10 @@ function Item() {
         console.error("Create Order error", e)
       });
   }
-  function onApprove(data: any) {
+
+  const onApprove = (data: any) => {
     console.log("onApprove")
-    const cookies = nookies.get();
-    const userId = cookies['userId'];
-    if (userId) {
-      updateUser(userId, {
-        file_downloads: [2]
-      });
-    }
+    addFileDownload();
     return fetch("/api/capture-paypal-order", {
       method: "POST",
       headers: {
@@ -61,6 +56,19 @@ function Item() {
         console.error("Approve error", e)
       });
 
+  }
+
+  const addFileDownload = () => {
+    console.log("addFileDownload")
+    const filesDownloadsString = localStorage.getItem("filesDownloads");
+    const previousFileDownloads = filesDownloadsString ? JSON.parse(localStorage.getItem("filesDownloads"))?.map((fd: any) => fd.id) : [];
+    const cookies = nookies.get();
+    const userId = cookies['userId'];
+    if (userId && previousFileDownloads) {
+      updateUser(userId, {
+        file_downloads: [...previousFileDownloads, 1]
+      });
+    }
   }
 
   return (
@@ -317,6 +325,9 @@ function Item() {
         createOrder={createOrder}
         onApprove={onApprove}
       />
+      <button onClick={() => {
+        addFileDownload()
+      }}>test add file</button>
     </div>
   )
 }

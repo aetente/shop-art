@@ -16,7 +16,7 @@ export const ShoppingCartProvider: React.FC<{
   );
 
   useEffect(() => {
-    setCookie(null, 'jwt', JSON.stringify(cart), {
+    setCookie(null, 'cart', JSON.stringify(cart), {
       httpOnly: false,
       secure: process.env.NODE_ENV !== 'development',
       maxAge: 30 * 24 * 60 * 60,
