@@ -1,38 +1,96 @@
-import CartItem from "@/components/cart-item/cart-item"
-import { useShoppingCartContext } from "@/providers/ShoppinCartProvider";
+import Image from 'next/image'
+import { PayPalButtons } from '@paypal/react-paypal-js'
+import nookies from 'nookies';
+import { updateUser } from '@/requests/updateUser';
+import { useShoppingCartContext } from '@/providers/ShoppinCartProvider';
 
-function Checkout() {
-  
+function CheckoutPage() {
+
   const { cart } = useShoppingCartContext();
+  const total = cart.total;
+
+  const cookies = nookies.get();
+  const userId = cookies['userId'];
+  console.log('userId', userId)
+	console.log('cart', cart)
+
+  const createOrder = () => {
+    console.log("createOrder")
+    return fetch("/api/create-paypal-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // use the "body" param to optionally pass additional order information
+      // like product ids and quantities
+      body: JSON.stringify({
+        cart: [
+          {
+            id: "1",
+            quantity: "1",
+          },
+        ],
+      }),
+    })
+      .then((response) => response.json())
+      .then((order) => order.id)
+      .catch((e) => {
+        console.error("Create Order error", e)
+      });
+  }
+
+  const onApprove = (data: any) => {
+    console.log("onApprove")
+    return fetch("/api/capture-paypal-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orderID: data.orderID
+      })
+    })
+      .then((response) => response.json())
+      .then((orderData) => {
+        const name = orderData.payer.name.given_name;
+        console.log(`Transaction completed by ${name}`);
+        addFileDownload();
+      })
+      .catch((e) => {
+        console.error("Approve error", e)
+      });
+
+  }
+
+  const addFileDownload = () => {
+    console.log("addFileDownload")
+		// TODO: replace item id with file download id
+		const cartFileDownloads = cart.items.map((item: any) => (item.id + 1))
+    const filesDownloadsString = localStorage.getItem("filesDownloads");
+    const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString)?.map((fd: any) => fd.id) : [];
+    const cookies = nookies.get();
+    const userId = cookies['userId'];
+    if (userId && previousFileDownloads) {
+			const newFileDownloads = [...previousFileDownloads, ...cartFileDownloads]
+			localStorage.setItem("filesDownloads", JSON.stringify(newFileDownloads));
+      updateUser(userId, {
+        file_downloads: newFileDownloads
+      });
+    }
+  }
 
   return (
-    <div className='pt-24'>
-      <div>SHOPPING CART</div>
-      <div className='mt-4 flex flex-col gap-2'>
-        {cart.items.map((item: any, i: number) => {
-          return (
-            <CartItem
-              key={`cart-item-${item.id}`}
-              name={item.name}
-              price={item.attributes.price}
-              quantity={item.quantity}
-              img={item.img}
-              id={item.id}
-            />
-          )
-        })}
-      </div>
-      <div>INFO</div>
-      <div className='flex justify-between items-stretch'>
-        <div className='min-h-[168px] min-w-[256px] border-solid border-[1px] border-black' />
-        <div className='relative flex flex-col justify-between items-end gap-4'>
-          <div/>
-          <div>${Math.round(cart.total * 100) / 100}</div>
-          <button className='bg-green-600 text-gray-50 p-4' >CHECKOUT</button>
-        </div>
-      </div>
+		<div className='pt-24'>
+			<div>TOTAL: ${total}</div>
+      <PayPalButtons
+        createOrder={createOrder}
+        onApprove={onApprove}
+      />
+      <button onClick={() => {
+        addFileDownload()
+      }}>test add file</button>
     </div>
   )
 }
 
-export default Checkout
+export default CheckoutPage

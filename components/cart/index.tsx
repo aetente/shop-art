@@ -71,7 +71,7 @@ function Cart() {
 
   function cartRedirect() {
     setShowCart(false);
-    router.push("/checkout");
+    router.push("/cart");
   }
 
   return (

@@ -37,7 +37,6 @@ function Item() {
 
   const onApprove = (data: any) => {
     console.log("onApprove")
-    addFileDownload();
     return fetch("/api/capture-paypal-order", {
       method: "POST",
       headers: {
@@ -50,7 +49,8 @@ function Item() {
       .then((response) => response.json())
       .then((orderData) => {
         const name = orderData.payer.name.given_name;
-        // alert(`Transaction completed by ${name}`);
+        console.log(`Transaction completed by ${name}`);
+        addFileDownload();
       })
       .catch((e) => {
         console.error("Approve error", e)
@@ -61,7 +61,7 @@ function Item() {
   const addFileDownload = () => {
     console.log("addFileDownload")
     const filesDownloadsString = localStorage.getItem("filesDownloads");
-    const previousFileDownloads = filesDownloadsString ? JSON.parse(localStorage.getItem("filesDownloads"))?.map((fd: any) => fd.id) : [];
+    const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString)?.map((fd: any) => fd.id) : [];
     const cookies = nookies.get();
     const userId = cookies['userId'];
     if (userId && previousFileDownloads) {
