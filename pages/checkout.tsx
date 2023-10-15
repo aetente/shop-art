@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import { PayPalButtons } from '@paypal/react-paypal-js'
-import nookies from 'nookies';
+import nookies, { destroyCookie } from 'nookies';
 import { updateUser } from '@/requests/updateUser';
 import { useShoppingCartContext } from '@/providers/ShoppinCartProvider';
 
 function CheckoutPage() {
 
-  const { cart } = useShoppingCartContext();
+  const { cart, resetCart } = useShoppingCartContext();
   const total = cart.total;
 
   const cookies = nookies.get();
@@ -54,6 +54,7 @@ function CheckoutPage() {
       .then((orderData) => {
         const name = orderData.payer.name.given_name;
         console.log(`Transaction completed by ${name}`);
+
         addFileDownload();
       })
       .catch((e) => {
@@ -64,6 +65,9 @@ function CheckoutPage() {
 
   const addFileDownload = () => {
     console.log("addFileDownload")
+        
+    destroyCookie(undefined, 'cart');
+    resetCart();  
 		// TODO: replace item id with file download id
 		const cartFileDownloads = cart.items.map((item: any) => (item.id + 1))
     const filesDownloadsString = localStorage.getItem("filesDownloads");

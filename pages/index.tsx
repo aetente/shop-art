@@ -9,14 +9,20 @@ import { useEffect, useState } from 'react'
 
 export default function Home() {
 
-  const [openMenu, setOpenMenu] = useState(false)
-  const router = useRouter()
-
+  const [openMenu, setOpenMenu] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<any>([]);
+  const router = useRouter();
 
   const { isLoggedIn } = useUserContext()
 
+  const fetchCategories = async () => {
+    setCategories(await getCategories());
+    setLoading(false);
+  }
+
   useEffect(() => {
-    getCategories()
+    fetchCategories();
   }, [])
 
   return (
@@ -76,7 +82,9 @@ export default function Home() {
       </div>
 
       <div className="relative w-full mt-10">
-        <Categories />
+        {loading ? (<div>LOADING</div>) : (
+          <Categories categoriesData={categories?.data} />
+        )}
       </div>
 
       <div className="relative w-full mt-10">
