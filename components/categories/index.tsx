@@ -38,19 +38,21 @@ function Categories(props: Props) {
         <div className='absolute top-0 left-0 bottom-0 right-0'>
           <p>{c.attributes.name}</p>
           <div
-            className='relative w-full h-full min-w-[168px] min-h-[100%] mt-2 cursor-pointer'
+            className='relative w-full h-full max-w-[168px] max-h-[168px] mt-2 cursor-pointer'
             onClick={() => {
               router.push('/items')
             }}
           >
             <img
-              src={"http://localhost:1337/" + c.attributes.thumbnail.data.attributes.url}
+              src={"http://localhost:1337" + c.attributes.thumbnail.data.attributes.url}
               alt={c.attributes.name}
               style={{
                 objectFit: 'cover',
                 width: '100%',
                 height: 'auto',
-                position: 'absolute'
+                position: 'absolute',
+                maxWidth: "168px",
+                maxHeight: "168px"
               }}
             />
           </div>
@@ -61,7 +63,7 @@ function Categories(props: Props) {
 
   return (
     <div className='w-full grid grid-flow-column grid-cols-2 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
-      {props.categoriesData.map(mapCategories)}
+      {props.categoriesData.flatMap((i:any) => [i,i,i,i,i,i,i,i,i,i,i,i,i]).map(mapCategories)}
     </div >
   )
 }
