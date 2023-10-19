@@ -1,6 +1,8 @@
 import { useShoppingCartContext } from '@/providers/ShoppinCartProvider';
+import { getProducts } from '@/requests/products';
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react';
 
 const itemsData = [
   {
@@ -46,16 +48,21 @@ function Items() {
 
   const { addItem, setShowCart } = useShoppingCartContext();
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [products, setProducts] = useState([])
+
   const handleAddItem = (data: any) => {
     addItem(data);
     setShowCart(true);
   }
 
   const mapItems = (c: any, i: number) => {
+    console.log('mapItems', c)
     return (
       <div key={`item-${i}`} className='grid w-full relative pb-[100%]'>
         <div className='absolute top-0 left-0 bottom-0 right-0'>
-          <p>{c.name}</p>
+          <p>{c.attributes.name}</p>
           <div
             className='relative w-full h-full min-w-[168px] min-h-[100%] mt-2 cursor-pointer'
             onClick={() => {
@@ -63,14 +70,13 @@ function Items() {
               handleAddItem(c);
             }}
           >
-            <Image
-              layout='fill'
-              src={c.img}
-              alt={c.name}
+            <img
+              src={"http://localhost:1337" + c.attributes.images.data[0].attributes.url}
+              alt={c.attributes.name}
               style={{
                 objectFit: 'cover',
-                // width: '100%',
-                // height: 'auto'
+                width: '100%',
+                height: '100%'
               }}
             />
           </div>
@@ -79,17 +85,32 @@ function Items() {
     )
   }
 
+  const getProductsByCategory = async () => {
+    try {
+      console.log(router.query.category)
+      const productsData = await getProducts(router.query.category);
+      console.log(productsData);
+      setProducts(productsData.data)
+      setIsLoading(false)
+    } catch (e) {
+      console.error('error getting products', e);
+    }
+  }
+
+  useEffect(() => {
+    getProductsByCategory()
+  }, [])
+
+  console.log('products', products)
+
   return (
-    <div className='w-full grid grid-flow-column grid-cols-6 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
-      {Array(20).fill({
-        id: Math.round(Math.random()),
-        name: 'item',
-        img: '/test/test_image1.jpg',
-        attributes: {
-          price: 1.34
-        }
-      }).map(mapItems)}
-    </div >
+    <div>
+      {isLoading ? (<div>LOADING...</div>) :
+        <div className='w-full grid grid-flow-column grid-cols-6 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
+          {products.flatMap((i:any) => [i,i,i,i,i,i,i,i,i,i,i,i,i]).map(mapItems)}
+        </div >
+      }
+    </div>
   )
 }
 

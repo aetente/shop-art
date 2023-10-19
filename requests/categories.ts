@@ -1,6 +1,6 @@
 export async function getCategories() {
   try {
-    const res = await fetch('http://localhost:1337/api/categories?populate=*', {
+    const res = await fetch('http://localhost:1337/api/categories?populate=thumbnail', {
       method: 'GET'
     })
     
