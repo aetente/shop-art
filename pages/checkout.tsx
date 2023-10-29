@@ -14,7 +14,7 @@ function CheckoutPage() {
   console.log('userId', userId)
 	console.log('cart', cart)
 
-  const createOrder = () => {
+  const createOrder = (price: number) => {
     console.log("createOrder")
     return fetch("/api/create-paypal-order", {
       method: "POST",
@@ -30,10 +30,14 @@ function CheckoutPage() {
             quantity: "1",
           },
         ],
+        price
       }),
     })
       .then((response) => response.json())
-      .then((order) => order.id)
+      .then((order) => {
+        console.log("createOrder done order", order)
+        return order.id
+      })
       .catch((e) => {
         console.error("Create Order error", e)
       });
@@ -87,7 +91,7 @@ function CheckoutPage() {
 		<div className='pt-24'>
 			<div>TOTAL: ${total}</div>
       <PayPalButtons
-        createOrder={createOrder}
+        createOrder={() => createOrder(Math.round(total * 100) / 100)}
         onApprove={onApprove}
       />
       <button onClick={() => {

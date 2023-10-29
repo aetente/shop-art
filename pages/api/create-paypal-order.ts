@@ -11,7 +11,8 @@ const baseURL = {
 // create a new order
 export default async function handler(req:any, res:any) {
   if (req.method === 'POST') {
-    const order = await createOrder();
+    console.log(req.body)
+    const order = await createOrder(req.body.price);
     res.json(order);
   } else {
     // Handle any other HTTP method
@@ -32,7 +33,7 @@ async function generateAccessToken() {
   return data.access_token;
 }
 
-async function createOrder() {
+async function createOrder(price: number) {
   const accessToken = await generateAccessToken();
   const url = `${baseURL.sandbox}/v2/checkout/orders`;
   const response = await fetch(url, {
@@ -47,7 +48,7 @@ async function createOrder() {
         {
           amount: {
             currency_code: "USD",
-            value: "0.01",
+            value: String(price),
           },
         },
       ],
