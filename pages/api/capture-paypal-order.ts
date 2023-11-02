@@ -9,7 +9,7 @@ const baseURL = {
 };
 
 // capture payment & store order information or fullfill order
-export default async function handler(req:any, res:any) {
+export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     const { orderID } = req.body;
     const captureData = await capturePayment(orderID);
@@ -35,7 +35,7 @@ async function generateAccessToken() {
 }
 
 // use the orders api to capture payment for an order
-async function capturePayment(orderId:any) {
+async function capturePayment(orderId: any) {
   const accessToken = await generateAccessToken();
   const url = `${baseURL.sandbox}/v2/checkout/orders/${orderId}/capture`;
   const response = await fetch(url, {

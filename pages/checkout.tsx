@@ -59,12 +59,32 @@ function CheckoutPage() {
         const name = orderData.payer.name.given_name;
         console.log(`Transaction completed by ${name}`);
 
-        addFileDownload();
+        doInvoice();
       })
       .catch((e) => {
         console.error("Approve error", e)
       });
 
+  }
+
+  const doInvoice = async () => {
+    
+    console.log("startInvoice")
+    return fetch("/api/invoice", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((invoiceData) => {
+        console.log(`invoiceData FE`, invoiceData);
+
+        addFileDownload();
+      })
+      .catch((e) => {
+        console.error("Approve error", e)
+      });
   }
 
   const addFileDownload = () => {
@@ -75,7 +95,7 @@ function CheckoutPage() {
 		// TODO: replace item id with file download id
 		const cartFileDownloads = cart.items.map((item: any) => (item.id + 1))
     const filesDownloadsString = localStorage.getItem("filesDownloads");
-    const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString)?.map((fd: any) => fd.id) : [];
+    const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd:any) => fd ? true : false) : [];
     const cookies = nookies.get();
     const userId = cookies['userId'];
     if (userId && previousFileDownloads) {
