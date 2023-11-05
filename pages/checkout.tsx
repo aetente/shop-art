@@ -57,9 +57,11 @@ function CheckoutPage() {
       .then((response) => response.json())
       .then((orderData) => {
         const name = orderData.payer.name.given_name;
-        console.log(`Transaction completed by ${name}`);
+        console.log(`Transaction completed by ${name}`, orderData);
 
-        doInvoice();
+        // doInvoice();
+        
+        addFileDownload();
       })
       .catch((e) => {
         console.error("Approve error", e)

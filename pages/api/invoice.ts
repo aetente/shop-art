@@ -9,19 +9,19 @@ const baseURL = {
 };
 
 const TEMPLATE_INVOICE = {
-  // "detail":{
-  //    "invoice_number":"#0",
-  //    "reference":"deal-ref",
-  //    "invoice_date":"2018-11-12",
-  //    "currency_code":"USD",
-  //    "note":"Thank you for your business.",
-  //    "term":"No refunds",
-  //    "memo":"memo",
-  //   //  "payment_term":{
-  //   //     "term_type":"NET_10",
-  //   //     "due_date":"2018-11-22"
-  //   //  }
-  // },
+  "detail":{
+    //  "invoice_number":"#0",
+    //  "reference":"deal-ref",
+    //  "invoice_date":"2018-11-12",
+     "currency_code":"USD",
+     "note":"Thank you for your business.",
+     "term":"No refunds",
+     "memo":"memo",
+    //  "payment_term":{
+    //     "term_type":"NET_10",
+    //     "due_date":"2018-11-22"
+    //  }
+  },
   "invoicer":{
     //  "name":{
     //     "given_name":"Yehoshua",
@@ -101,7 +101,7 @@ const TEMPLATE_INVOICE = {
            "percent":"7.25"
         },
         "discount":{
-           "percent":"0"
+           "percent":"5"
         },
         "unit_of_measure":"QUANTITY"
      }
@@ -207,4 +207,5 @@ async function doInvoice() {
 
 
   return sendInvoicData;
+  // return data
 }
