@@ -15,6 +15,8 @@ export const ShoppingCartProvider: React.FC<{
     cartCookie ? JSON.parse(cartCookie) : { items: [], total: 0 }
   );
 
+  console.log('cart', cart)
+
   useEffect(() => {
     setCookie(null, 'cart', JSON.stringify(cart), {
       httpOnly: false,

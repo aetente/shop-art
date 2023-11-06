@@ -1,5 +1,6 @@
 import { useUserContext } from "@/providers/UserProvider";
 import { logIn } from "@/requests/login";
+import { logout } from "@/utils/logout";
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react";
 import nookies from 'nookies';
@@ -25,6 +26,7 @@ function Login() {
   }
 
   const doLogOut = () => {
+    logout();
     setLoggedOut();
     router.push('/');
   }

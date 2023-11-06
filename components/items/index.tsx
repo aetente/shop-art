@@ -58,7 +58,6 @@ function Items() {
   }
 
   const mapItems = (c: any, i: number) => {
-    console.log('mapItems', c)
     return (
       <div key={`item-${i}`} className='grid w-full relative pb-[100%]'>
         <div className='absolute top-0 left-0 bottom-0 right-0'>
@@ -71,7 +70,7 @@ function Items() {
             }}
           >
             <img
-              src={"http://localhost:1337" + c.attributes.images.data[0].attributes.url}
+              src={"http://localhost:1337" + c?.attributes?.images?.data[0]?.attributes?.url}
               alt={c.attributes.name}
               style={{
                 objectFit: 'cover',
