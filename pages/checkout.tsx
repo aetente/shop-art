@@ -11,8 +11,6 @@ function CheckoutPage() {
 
   const cookies = nookies.get();
   const userId = cookies['userId'];
-  console.log('userId', userId)
-	console.log('cart', cart)
 
   const createOrder = (price: number) => {
     console.log("createOrder")
@@ -95,16 +93,26 @@ function CheckoutPage() {
     destroyCookie(undefined, 'cart');
     resetCart();  
 		// TODO: replace item id with file download id
-		const cartFileDownloads = cart.items.map((item: any) => (item.id + 1))
+		let cartFileDownloads = cart.items
     const filesDownloadsString = localStorage.getItem("filesDownloads");
-    const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd:any) => fd ? true : false) : [];
+    let previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd:any) => fd ? true : false) : [];
+    console.log("cartFileDownloads before", cartFileDownloads)
+    cartFileDownloads = cartFileDownloads.map((fd:any) => {
+      let fixedFD:any = {};
+      fixedFD = fd.attributes.file_download.data.attributes;
+      fixedFD.id = fd.attributes.file_download.data.id;
+      fixedFD.file = fixedFD.file.data.map((fileData:any) => ({...fileData.attributes, id: fileData.id}));
+      return fixedFD;
+    })
+    console.log("cartFileDownloads after", cartFileDownloads)
     const cookies = nookies.get();
     const userId = cookies['userId'];
     if (userId && previousFileDownloads) {
 			const newFileDownloads = [...previousFileDownloads, ...cartFileDownloads]
 			localStorage.setItem("filesDownloads", JSON.stringify(newFileDownloads));
+      const fileDownloadsIDs = newFileDownloads.map((nfd:any) => nfd.id);
       updateUser(userId, {
-        file_downloads: newFileDownloads
+        file_downloads: fileDownloadsIDs
       });
     }
   }

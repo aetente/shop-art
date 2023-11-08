@@ -106,7 +106,7 @@ function Items() {
     <div>
       {isLoading ? (<div>LOADING...</div>) :
         <div className='w-full grid grid-flow-column grid-cols-6 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
-          {products.flatMap((i:any) => [i,i,i,i,i,i,i,i,i,i,i,i,i]).map(mapItems)}
+          {(products || []).flatMap((i:any) => [i,i,i,i,i,i,i,i,i,i,i,i,i]).map(mapItems)}
         </div >
       }
     </div>
