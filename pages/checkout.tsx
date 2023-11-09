@@ -95,7 +95,7 @@ function CheckoutPage() {
 		// TODO: replace item id with file download id
 		let cartFileDownloads = cart.items
     const filesDownloadsString = localStorage.getItem("filesDownloads");
-    let previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd:any) => fd ? true : false) : [];
+    const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd:any) => fd ? true : false) : [];
     console.log("cartFileDownloads before", cartFileDownloads)
     cartFileDownloads = cartFileDownloads.map((fd:any) => {
       let fixedFD:any = {};

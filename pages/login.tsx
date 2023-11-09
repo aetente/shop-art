@@ -31,7 +31,7 @@ function Login() {
     router.push('/');
   }
 
-  const doDownload = async () => {
+  const doDownload = async (fileUrl: string) => {
 
     const cookies = nookies.get();
     if (cookies['jwt']) {
@@ -47,9 +47,9 @@ function Login() {
           }
         }
         // await fetch('http://localhost:1337/uploads/wordpress_6_2_2_dfdebd56fe.zip', options)
-        await fetch('http://localhost:1337/uploads/Yehoshua_Kopirin_Frontend_Resume_5202e5d14e.pdf', options)
-        // await fetch('http://localhost:1337/uploads/blot2_strech_288a56fce2.png', options)
-        // await fetch('http://localhost:1337/api/upload/files/1', options)
+        await fetch('http://localhost:1337' + fileUrl, options)
+          // await fetch('http://localhost:1337/uploads/blot2_strech_288a56fce2.png', options)
+          // await fetch('http://localhost:1337/api/upload/files/1', options)
           .then(response => response.blob())
           .then(blob => URL.createObjectURL(blob))
           .then(url => {
@@ -60,6 +60,26 @@ function Login() {
         console.error('ERROR downloading the file', e);
       }
     }
+  }
+
+  const fillInFileDownloads = () => {
+
+    const filesDownloadsString = localStorage.getItem("filesDownloads");
+    const fileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd: any) => fd ? true : false) : [];
+    return fileDownloads.map((fd: any, i: number) => {
+      return (
+
+        <button
+          key={`download-${i}`}
+          onClick={() => {
+            doDownload(fd.file[0].url);
+          }}
+          className={`bg-blue-500 text-gray-50 p-4 w-full`}
+        >
+          DOWNLOAD {fd.id}
+        </button>
+      )
+    })
   }
 
   return (
@@ -103,14 +123,7 @@ function Login() {
             >
               LOG OUT
             </button>
-            <button
-              onClick={() => {
-                doDownload();
-              }}
-              className={`bg-blue-500 text-gray-50 p-4 w-full`}
-            >
-              DOWNLOAD
-            </button>
+            {fillInFileDownloads()}
           </>
 
         )}
