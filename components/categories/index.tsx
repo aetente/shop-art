@@ -66,7 +66,7 @@ function Categories(props: Props) {
 
   return (
     <div className='w-full grid grid-flow-column lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-2 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
-      {props.categoriesData.flatMap((i:any) => [i,i,i,i,i,i,i,i,i,i,i,i,i]).map(mapCategories)}
+      {props.categoriesData.map(mapCategories)}
     </div >
   )
 }

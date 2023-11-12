@@ -40,9 +40,11 @@ export const ShoppingCartProvider: React.FC<{
     } else {
       setCart((prevCart: any) => ({
         items: prevCart.items.map((i: any) =>
-          i.id === newItem.id ? { ...i, quantity: i.quantity + 1 } : i
+          // i.id === newItem.id ? { ...i, quantity: i.quantity + 1 } : i
+          i
         ),
-        total: prevCart.total + item.attributes.price,
+        // total: prevCart.total + item.attributes.price,
+        total: prevCart.total,
       }));
     }
   };
@@ -94,6 +96,10 @@ export const ShoppingCartProvider: React.FC<{
   const resetCart = () => {
     setCart({ items: [], total: 0 });
   };
+
+  // useEffect(() => {
+  //   resetCart()
+  // })
 
   return (
     <ShoppingCartContext.Provider
