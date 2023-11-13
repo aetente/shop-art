@@ -8,10 +8,8 @@ function Item() {
 
   const cookies = nookies.get();
   const userId = cookies['userId'];
-  console.log('userId', userId)
 
   const createOrder = () => {
-    console.log("createOrder")
     return fetch("/api/create-paypal-order", {
       method: "POST",
       headers: {
@@ -36,7 +34,6 @@ function Item() {
   }
 
   const onApprove = (data: any) => {
-    console.log("onApprove")
     return fetch("/api/capture-paypal-order", {
       method: "POST",
       headers: {
@@ -49,7 +46,6 @@ function Item() {
       .then((response) => response.json())
       .then((orderData) => {
         const name = orderData.payer.name.given_name;
-        console.log(`Transaction completed by ${name}`);
         addFileDownload();
       })
       .catch((e) => {
@@ -59,7 +55,6 @@ function Item() {
   }
 
   const addFileDownload = () => {
-    console.log("addFileDownload")
     const filesDownloadsString = localStorage.getItem("filesDownloads");
     const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString)?.map((fd: any) => fd.id) : [];
     const cookies = nookies.get();

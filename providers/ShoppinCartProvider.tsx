@@ -18,17 +18,19 @@ export const ShoppingCartProvider: React.FC<{
   console.log('cart', cart)
 
   useEffect(() => {
+    console.log("set cookie", cart)
     setCookie(null, 'cart', JSON.stringify(cart), {
       httpOnly: false,
       secure: process.env.NODE_ENV !== 'development',
       maxAge: 30 * 24 * 60 * 60,
       path: '/',
     });
+    console.log("get cookie", nookies.get()["cart"])
   }, [cart]);
 
   const addItem = (item: any) => {
-    let newItem = cart.items.find((i: any) => i.id === item.id);
-    if (!newItem) {
+    let isOldItem = cart.items.find((i: any) => i.id === item.id);
+    if (!isOldItem) {
       const newItem = {
         quantity: 1,
         ...item,

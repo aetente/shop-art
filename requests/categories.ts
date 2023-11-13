@@ -4,9 +4,7 @@ export async function getCategories() {
       method: 'GET'
     })
     
-    console.log('getCategories', res)
     const data = await res.json()
-    console.log('getCategories', data)
     return data;
   } catch(e) {
     console.error('Error getCategories', e)

@@ -153,7 +153,6 @@ export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     const { orderID } = req.body;
     const invoiceData = await doInvoice();
-		console.log("invoiceData", invoiceData)
     res.json(invoiceData);
   } else {
     // Handle any other HTTP method

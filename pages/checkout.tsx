@@ -13,7 +13,6 @@ function CheckoutPage() {
   const userId = cookies['userId'];
 
   const createOrder = (price: number) => {
-    console.log("createOrder")
     return fetch("/api/create-paypal-order", {
       method: "POST",
       headers: {
@@ -33,7 +32,6 @@ function CheckoutPage() {
     })
       .then((response) => response.json())
       .then((order) => {
-        console.log("createOrder done order", order)
         return order.id
       })
       .catch((e) => {
@@ -42,7 +40,6 @@ function CheckoutPage() {
   }
 
   const onApprove = (data: any) => {
-    console.log("onApprove")
     return fetch("/api/capture-paypal-order", {
       method: "POST",
       headers: {
@@ -55,7 +52,6 @@ function CheckoutPage() {
       .then((response) => response.json())
       .then((orderData) => {
         const name = orderData.payer.name.given_name;
-        console.log(`Transaction completed by ${name}`, orderData);
 
         // doInvoice();
         
@@ -69,7 +65,6 @@ function CheckoutPage() {
 
   const doInvoice = async () => {
     
-    console.log("startInvoice")
     return fetch("/api/invoice", {
       method: "POST",
       headers: {
@@ -78,7 +73,6 @@ function CheckoutPage() {
     })
       .then((response) => response.json())
       .then((invoiceData) => {
-        console.log(`invoiceData FE`, invoiceData);
 
         addFileDownload();
       })
@@ -88,7 +82,6 @@ function CheckoutPage() {
   }
 
   const addFileDownload = () => {
-    console.log("addFileDownload")
         
     destroyCookie(undefined, 'cart');
     resetCart();  
@@ -96,7 +89,6 @@ function CheckoutPage() {
 		let cartFileDownloads = cart.items
     const filesDownloadsString = localStorage.getItem("filesDownloads");
     const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd:any) => fd ? true : false) : [];
-    console.log("cartFileDownloads before", cartFileDownloads)
     cartFileDownloads = cartFileDownloads.map((fd:any) => {
       let fixedFD:any = {};
       fixedFD = fd.attributes.file_download.data.attributes;
@@ -104,7 +96,6 @@ function CheckoutPage() {
       fixedFD.file = fixedFD.file.data.map((fileData:any) => ({...fileData.attributes, id: fileData.id}));
       return fixedFD;
     })
-    console.log("cartFileDownloads after", cartFileDownloads)
     const cookies = nookies.get();
     const userId = cookies['userId'];
     if (userId && previousFileDownloads) {

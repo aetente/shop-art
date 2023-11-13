@@ -25,14 +25,15 @@ function CartItem(props: Props) {
             router.push('/item')
           }}
         >
-          <Image
-            layout='fill'
+          <img
             src={props.img}
             alt={props.name}
             style={{
               objectFit: 'cover',
-              // width: '100%',
-              // height: 'auto'
+              width: '100%',
+              height: 'auto',
+              maxWidth: '200px',
+              maxHeight: '200px'
             }}
           />
         </div>
@@ -44,14 +45,14 @@ function CartItem(props: Props) {
         </div>
       </div>
 
-      <input
+      {/* <input
         type='number'
         defaultValue={props.quantity}
         className='min-w-[48px] w-12 border-solid border-[1px] border-black text-center'
         onChange={(e: any) => {
           setItemQuantityById(props.id, +e.target.value)
         }}
-      />
+      /> */}
 
       <div>
         ${Math.round(props.price * 100 * props.quantity) / 100}

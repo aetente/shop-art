@@ -16,7 +16,6 @@ export async function logIn(identifier: any, password: any) {
     })
 
     const data = await res.json()
-    console.log('logIn', data)
 
     if (data?.error) {
       return false
@@ -32,9 +31,6 @@ export async function logIn(identifier: any, password: any) {
     })
     
     const meData = await meRes.json();
-
-    console.log(data.jwt)
-    console.log("meData", meData)
 
     localStorage.setItem("filesDownloads", JSON.stringify(meData.file_downloads));
     setCookie({ res }, 'jwt', data.jwt, {

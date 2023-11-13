@@ -11,7 +11,6 @@ const baseURL = {
 // create a new order
 export default async function handler(req:any, res:any) {
   if (req.method === 'POST') {
-    console.log(req.body)
     const order = await createOrder(req.body.price);
     res.json(order);
   } else {

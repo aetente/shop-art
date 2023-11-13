@@ -6,9 +6,7 @@ export async function getProducts(categoryId: string | string[] | undefined) {
       method: 'GET'
     })
     
-    console.log('getProducts', res)
     const data = await res.json()
-    console.log('getProducts', data)
     return data;
   } catch(e) {
     console.error('Error getProducts', e)
