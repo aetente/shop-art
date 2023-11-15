@@ -6,26 +6,21 @@ const ShoppingCartContext = createContext<any>({});
 export const ShoppingCartProvider: React.FC<{
   children: any
 }> = ({ children }) => {
-  const cartCookie =
-    nookies.get()["cart"] !== "undefined" ? nookies.get()["cart"] : null;
 
   const [user, setUser] = useState(null);
   const [showCart, setShowCart] = useState(false);
-  const [cart, setCart] = useState(
-    cartCookie ? JSON.parse(cartCookie) : { items: [], total: 0 }
+  const [cart, setCart] = useState<any>(
+    { items: [], total: 0, init: true }
   );
 
-  console.log('cart', cart)
+  console.log('cart', cart, nookies.get())
 
   useEffect(() => {
-    console.log("set cookie", cart)
-    setCookie(null, 'cart', JSON.stringify(cart), {
-      httpOnly: false,
-      secure: process.env.NODE_ENV !== 'development',
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/',
-    });
-    console.log("get cookie", nookies.get()["cart"])
+    if (!cart.init) {
+      console.log("set localStorage", cart)
+      localStorage.setItem("cart", JSON.stringify(cart))
+      console.log("get localStorage", localStorage.getItem("cart"))
+    }
   }, [cart]);
 
   const addItem = (item: any) => {
@@ -38,6 +33,7 @@ export const ShoppingCartProvider: React.FC<{
       setCart((prevCart: any) => ({
         items: [...prevCart.items, newItem],
         total: prevCart.total + item.attributes.price,
+        init: false
       }));
     } else {
       setCart((prevCart: any) => ({
@@ -47,6 +43,7 @@ export const ShoppingCartProvider: React.FC<{
         ),
         // total: prevCart.total + item.attributes.price,
         total: prevCart.total,
+        init: false
       }));
     }
   };
@@ -56,15 +53,17 @@ export const ShoppingCartProvider: React.FC<{
     const previousItemTotal = foundItem.attributes.price * foundItem.quantity;
     if (quantity > 0) {
       setCart((prevCart: any) => ({
-        items: prevCart.items.map((i:any) =>
+        items: prevCart.items.map((i: any) =>
           i.id === foundItem.id ? { ...i, quantity } : i
         ),
         total: prevCart.total - previousItemTotal + foundItem.attributes.price * quantity,
+        init: false
       }));
     } else {
       setCart((prevCart: any) => ({
         items: prevCart.items.filter((i: any) => i.id !== id),
         total: prevCart.total - previousItemTotal,
+        init: false
       }));
     }
   }
@@ -75,6 +74,7 @@ export const ShoppingCartProvider: React.FC<{
     setCart((prevCart: any) => ({
       items: prevCart.items.filter((i: any) => i.id !== id),
       total: prevCart.total - previousItemTotal,
+      init: false
     }));
   }
 
@@ -86,11 +86,13 @@ export const ShoppingCartProvider: React.FC<{
           i.id === newItem.id ? { ...i, quantity: i.quantity - 1 } : i
         ),
         total: prevCart.total - item.attributes.price,
+        init: false
       }));
     } else {
       setCart((prevCart: any) => ({
         items: prevCart.items.filter((i: any) => i.id !== item.id),
         total: prevCart.total - item.attributes.price,
+        init: false
       }));
     }
   };
@@ -101,7 +103,16 @@ export const ShoppingCartProvider: React.FC<{
 
   // useEffect(() => {
   //   resetCart()
-  // })
+  // }, [])
+
+  useEffect(() => {
+    const cartLocalStorage = localStorage.getItem("cart")
+      ? localStorage.getItem("cart") : null;
+    console.log("cartLocalStorage", cartLocalStorage)
+    setCart(
+      cartLocalStorage ? JSON.parse(cartLocalStorage) : { items: [], total: 0 }
+    );
+  }, [])
 
   return (
     <ShoppingCartContext.Provider
