@@ -1,4 +1,4 @@
-import Header from '@/components/header'
+import Header from '@/components/header2'
 import '../styles/globals.css'
 import '../styles/categories.css'
 import type { Metadata } from 'next'

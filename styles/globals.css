@@ -2,10 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Open Sans Condensed';
+  src: url('/fonts/OpenSansCondensed/OpenSans-CondLight.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans Condensed Bold';
+  src: url('/fonts/OpenSansCondensed/OpenSans-CondBold.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --font-open-sans: 'Open Sans', sans-serif;
+  --font-sans-condensed: 'Open Sans Condensed', sans-serif;
+  --font-sans-condensed-bold: 'Open Sans Condensed Bold', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,10 +35,11 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  background-color: white;
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
 }
