@@ -33,6 +33,10 @@
   }
 }
 
+* {
+  font-family: var(--font-open-sans);
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background-color: white;

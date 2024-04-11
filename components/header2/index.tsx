@@ -2,15 +2,18 @@ import { useShoppingCartContext } from '@/providers/ShoppinCartProvider';
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Cart from '../cart';
+import { useUserContext } from '@/providers/UserProvider';
 
 function Header() {
 
 	const router = useRouter()
 
 	const { setShowCart } = useShoppingCartContext();
+	
+  const { isLoggedIn } = useUserContext()
 
 	return (
-		<div className='pr-24 pl-24 fixed w-full h-20 bg-[#eeeeee] z-30 left-0'>
+		<div className='flex items-center justify-between pr-24 pl-24 fixed w-full h-20 bg-[#eeeeee] z-30 left-0'>
 			<div className='flex items-center justify-between w-full max-w-7xl m-auto'>
 				<div className='relative w-[128px] h-[64px] cursor-pointer'
 					onClick={() => {
@@ -31,14 +34,14 @@ function Header() {
 					
 
 				<div className='flex items-center justify-between gap-2 font-sansCondensedBold'>
-					<div className='cursor-pointer'>PRODUCTS</div>
-					<div className='cursor-pointer'>CONRACT</div>
+					<div className='cursor-pointer font-sansCondensedBold'>PRODUCTS</div>
+					<div className='cursor-pointer font-sansCondensedBold'>CONRACT</div>
 					<div
-						className='cursor-pointer text-[#E31D27]'
+						className='cursor-pointer text-[#E31D27] font-sansCondensedBold'
 						onClick={() => {
 							router.push('/login')
 						}}
-					>LOG IN</div>
+					>{isLoggedIn ? "MY ACCOUNT" : "LOG IN"}</div>
 				</div>
 			</div>
 		</div>

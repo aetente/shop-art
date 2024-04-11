@@ -7,8 +7,8 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sansCondensed: ['var(--font-sans-condensed)'],
-      sansCondensedBold: ['var(--font-sans-condensed-bold)'],
+      sansCondensed: ['var(--font-sans-condensed) !important'],
+      sansCondensedBold: ['var(--font-sans-condensed-bold) !important'],
       openSans: ['var(--font-open-sans)'],
     },
     extend: {

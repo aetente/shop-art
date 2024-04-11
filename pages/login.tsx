@@ -83,34 +83,38 @@ function Login() {
   }
 
   return (
-    <div className='min-h-screen flex justify-center items-center'>
-      <div className="min-h-[360px] max-w-md bg-slate-200 m-auto p-12 flex flex-col justify-center items-center gap-8">
+    <div className='min-h-screen flex justify-center items-center pt-20'>
+      <div className="min-h-[360px] w-full max-w-3xl m-auto p-12 flex flex-col justify-center gap-2">
         {!isLoggedIn ? (<>
-          <div>LOGIN</div>
-          <input placeholder='email' className='text-2xl' onChange={(e) => { setEmail(e.target.value) }} />
-          <input type='password' placeholder='password' className='text-2xl' onChange={(e) => { setPassword(e.target.value) }} />
+          <p className="font-openSans text-black font-extrabold">Login</p>
+          <p className="font-openSans text-black mt-2">Email address</p>
+          <input placeholder='email' className='p-1 border-stone-500 border-[0.5px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded' onChange={(e) => { setEmail(e.target.value) }} />
+          <p className="font-openSans text-black">Password</p>
+          <input type='password' placeholder='password' className='p-1 border-stone-500 border-[0.5px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded' onChange={(e) => { setPassword(e.target.value) }} />
 
-          <div className="flex flex-col justify-center items-center gap-2 w-full">
+          <div className="flex flex-col justify-center items-center gap-4 w-full mt-2">
+            <div className="flex justify-between items-center w-full">
+              <div
+                onClick={() => {
+                  router.push('/signup')
+                }}
+                className='cursor-pointer text-sm'
+              >
+                Create account
+              </div>
+              <div className='cursor-pointer text-sm'>
+                Forgot password?
+              </div>
+            </div>
             <button
               onClick={() => {
                 doLogIn();
               }}
-              className={`${!(email && password) ? "bg-gray-300 text-gray-500" : "bg-blue-500 text-gray-50"} p-4 w-full`}
+              className={`${!(email && password) ? "bg-gray-300 text-gray-500" : "bg-[#B20000] text-white"} p-1 rounded w-full max-w-[144px]`}
               disabled={!(email && password)}
             >
-              SIGN IN
+              LOG IN
             </button>
-            <div className='text-blue-600 w-full cursor-pointer'>
-              Forgot password?
-            </div>
-            <div
-              onClick={() => {
-                router.push('/signup')
-              }}
-              className='text-blue-600 w-full cursor-pointer'
-            >
-              Create account
-            </div>
           </div>
         </>) : (
           <>
