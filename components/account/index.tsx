@@ -53,19 +53,27 @@ function Account(props: any) {
 	const fillInFileDownloads = () => {
 
 		const filesDownloadsString = localStorage.getItem("filesDownloads");
-		const fileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd: any) => fd ? true : false) : [];
+		console.log(filesDownloadsString)
+		const fileDownloads = filesDownloadsString && filesDownloadsString !== "undefined" ? JSON.parse(filesDownloadsString).filter((fd: any) => fd ? true : false) : [];
 		return fileDownloads.map((fd: any, i: number) => {
+			console.log(fd)
 			return (
-
-				<button
+				<div
+					className="flex justify-between items-center gap-3"
 					key={`download-${i}`}
-					onClick={() => {
-						doDownload(fd.file[0].url);
-					}}
-					className={`bg-blue-500 text-gray-50 p-4 w-full`}
 				>
-					DOWNLOAD {fd.id}
-				</button>
+					<p className="text-[#333333] text-sm font-openSans">
+						#{fd.id}
+					</p>
+					<button
+						onClick={() => {
+							doDownload(fd.file[0].url);
+						}}
+						className={`text-[#b20000] text-sm font-openSans `}
+					>
+						File Link
+					</button>
+				</div>
 			)
 		})
 	}
@@ -92,44 +100,26 @@ function Account(props: any) {
 					className="px-5 py-4 hover:bg-[#f2eded] hover:text-[#1a1a1a] text-[#666666] cursor-pointer"
 					onClick={() => {
 						doLogOut();
-					}}	
+					}}
 				>
 					<p className="font-openSans text-base">Log-out</p>
 				</div>
 			</div>
 
-			<div>
-				<div className="min-w-[424px] border-[#e6e6e6] p-8 border-[1px] rounded-[8px] mb-8">
+			<div className="w-full">
+				<div className="max-w-[424px] border-[#e6e6e6] p-8 border-[1px] rounded-[8px] mb-8">
 					<p className="font-openSans font-bold text-[#999999] pb-4 text-sm">USER INFO</p>
 					<p className="font-openSans text-[#1a1a1a] pb-2 text-lg">John Dough</p>
 					<p className="font-openSans text-[#1a1a1a] pb-5 text-base">test@test.test</p>
 					<p className="font-openSans text-[#b20000] text-base cursor-pointer">EDIT DETAILS</p>
 				</div>
-				
-				<div className="w-full min-w-[424px] border-[#e6e6e6] p-8 border-[1px] rounded-[8px]">
+
+				<div className="w-full min-w-[424px] border-[#e6e6e6] p-8 border-[1px] rounded-[8px] flex flex-col">
 					{fillInFileDownloads()}
 				</div>
 			</div>
 		</div>
 	)
-
-	// return (
-	// 	<div className='min-h-screen flex justify-center items-center pt-20'>
-	// 		<div className="min-h-[360px] w-full max-w-3xl m-auto p-12 flex flex-col justify-center gap-2">
-
-	// 			<button
-	// 				onClick={() => {
-	// 					doLogOut();
-	// 				}}
-	// 				className={`bg-blue-500 text-gray-50 p-4 w-full`}
-	// 			>
-	// 				LOG OUT
-	// 			</button>
-	// 			{fillInFileDownloads()}
-
-	// 		</div>
-	// 	</div>
-	// )
 }
 
 export default Account
