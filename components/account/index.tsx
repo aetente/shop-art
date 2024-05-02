@@ -50,13 +50,13 @@ function Account(props: any) {
 		}
 	}
 
-	const fillInFileDownloads = () => {
+	const fillInBoughtItems = () => {
 
-		const filesDownloadsString = localStorage.getItem("filesDownloads");
-		console.log(filesDownloadsString)
-		const fileDownloads = filesDownloadsString && filesDownloadsString !== "undefined" ? JSON.parse(filesDownloadsString).filter((fd: any) => fd ? true : false) : [];
-		return fileDownloads.map((fd: any, i: number) => {
-			console.log(fd)
+		const boughtItemsString = localStorage.getItem("boughtItems");
+		console.log(boughtItemsString)
+		const boughtItems = boughtItemsString && boughtItemsString !== "undefined" ? JSON.parse(boughtItemsString).filter((fd: any) => fd ? true : false) : [];
+		return boughtItems.map((fd: any, i: number) => {
+			console.log("fd", fd)
 			return (
 				<div
 					className="flex justify-between items-center gap-3"
@@ -67,7 +67,7 @@ function Account(props: any) {
 					</p>
 					<button
 						onClick={() => {
-							doDownload(fd.file[0].url);
+							doDownload(fd.file_download.file[0].url);
 						}}
 						className={`text-[#b20000] text-sm font-openSans `}
 					>
@@ -115,7 +115,7 @@ function Account(props: any) {
 				</div>
 
 				<div className="w-full min-w-[424px] border-[#e6e6e6] p-8 border-[1px] rounded-[8px] flex flex-col">
-					{fillInFileDownloads()}
+					{fillInBoughtItems()}
 				</div>
 			</div>
 		</div>

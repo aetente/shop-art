@@ -55,13 +55,13 @@ function Item() {
   }
 
   const addFileDownload = () => {
-    const filesDownloadsString = localStorage.getItem("filesDownloads");
-    const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString)?.map((fd: any) => fd.id) : [];
+    const boughtItemsString = localStorage.getItem("boughtItems");
+    const previousBoughtItems = boughtItemsString ? JSON.parse(boughtItemsString)?.map((fd: any) => fd.id) : [];
     const cookies = nookies.get();
     const userId = cookies['userId'];
-    if (userId && previousFileDownloads) {
+    if (userId && previousBoughtItems) {
       updateUser(userId, {
-        file_downloads: [...previousFileDownloads, 1]
+        bought_items: [...previousBoughtItems, 1]
       });
     }
   }

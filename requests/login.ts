@@ -22,7 +22,7 @@ export async function logIn(identifier: any, password: any) {
     }
 
 
-    const meRes = await fetch('http://localhost:1337/api/users/me?populate[bought_items][file_downloads][populate][0]=file', {
+    const meRes = await fetch('http://localhost:1337/api/users/me?populate[bought_items][populate][file_download][populate][0]=file', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${data.jwt}`,
@@ -35,7 +35,7 @@ export async function logIn(identifier: any, password: any) {
     console.log("data", data)
     console.log("meData", meData)
 
-    localStorage.setItem("filesDownloads", JSON.stringify(meData.file_downloads));
+    localStorage.setItem("boughtItems", JSON.stringify(meData.bought_items));
     setCookie({ res }, 'jwt', data.jwt, {
       httpOnly: false,
       secure: process.env.NODE_ENV !== 'development',

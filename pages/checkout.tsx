@@ -74,22 +74,22 @@ function CheckoutPage() {
       .then((response) => response.json())
       .then((invoiceData) => {
 
-        addFileDownload();
+        addBoughtItem();
       })
       .catch((e) => {
         console.error("Approve error", e)
       });
   }
 
-  const addFileDownload = () => {
+  const addBoughtItem = () => {
         
     destroyCookie(undefined, 'cart');
     resetCart();  
 		// TODO: replace item id with file download id
-		let cartFileDownloads = cart.items
-    const filesDownloadsString = localStorage.getItem("filesDownloads");
-    const previousFileDownloads = filesDownloadsString ? JSON.parse(filesDownloadsString).filter((fd:any) => fd ? true : false) : [];
-    cartFileDownloads = cartFileDownloads.map((fd:any) => {
+		let cartItems = cart.items
+    const boughtItemsString = localStorage.getItem("boughtItems");
+    const previousBoughtItems = boughtItemsString ? JSON.parse(boughtItemsString).filter((fd:any) => fd ? true : false) : [];
+    cartItems = cartItems.map((fd:any) => {
       let fixedFD:any = {};
       fixedFD = fd.attributes.file_download.data.attributes;
       fixedFD.id = fd.attributes.file_download.data.id;
@@ -98,12 +98,12 @@ function CheckoutPage() {
     })
     const cookies = nookies.get();
     const userId = cookies['userId'];
-    if (userId && previousFileDownloads) {
-			const newFileDownloads = [...previousFileDownloads, ...cartFileDownloads]
-			localStorage.setItem("filesDownloads", JSON.stringify(newFileDownloads));
-      const fileDownloadsIDs = newFileDownloads.map((nfd:any) => nfd.id);
+    if (userId && previousBoughtItems) {
+			const newBoughtItems = [...previousBoughtItems, ...cartItems]
+			localStorage.setItem("boughtItems", JSON.stringify(newBoughtItems));
+      const boughtItemsIDs = newBoughtItems.map((nfd:any) => nfd.id);
       updateUser(userId, {
-        file_downloads: fileDownloadsIDs
+        bought_items: boughtItemsIDs
       });
     }
   }
