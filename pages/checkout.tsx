@@ -81,7 +81,7 @@ function CheckoutPage() {
       });
   }
 
-  const addBoughtItem = () => {
+  const addBoughtItem = async () => {
         
     destroyCookie(undefined, 'cart');
     resetCart();  
@@ -116,7 +116,7 @@ function CheckoutPage() {
         onApprove={onApprove}
       />
       <button onClick={() => {
-        addFileDownload()
+        addBoughtItem()
       }}>test add file</button>
     </div>
   )
