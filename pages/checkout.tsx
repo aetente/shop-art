@@ -83,28 +83,57 @@ function CheckoutPage() {
 
   const addBoughtItem = async () => {
         
-    destroyCookie(undefined, 'cart');
-    resetCart();  
+    // destroyCookie(undefined, 'cart');
+    // resetCart();  
+
 		// TODO: replace item id with file download id
 		let cartItems = cart.items
     const boughtItemsString = localStorage.getItem("boughtItems");
     const previousBoughtItems = boughtItemsString ? JSON.parse(boughtItemsString).filter((fd:any) => fd ? true : false) : [];
-    cartItems = cartItems.map((fd:any) => {
-      let fixedFD:any = {};
-      fixedFD = fd.attributes.file_download.data.attributes;
-      fixedFD.id = fd.attributes.file_download.data.id;
-      fixedFD.file = fixedFD.file.data.map((fileData:any) => ({...fileData.attributes, id: fileData.id}));
-      return fixedFD;
-    })
+    console.log("previousBoughtItems", previousBoughtItems)
+    console.log("cart items before: ", cartItems)
+    
     const cookies = nookies.get();
     const userId = cookies['userId'];
+
+    let itemsToRemember: any[] = []
+
+    cartItems = cartItems.map((ci:any, i: number) => {
+      let fixedBoughtItem:any = {};
+      let itemToRemember:any = {};
+      let itemDate = (new Date()).toISOString()
+      // fixedBoughtItem = ci.attributes.file_download.data.attributes;
+      fixedBoughtItem.user = userId;
+      fixedBoughtItem.price = ci.attributes.price;
+      itemToRemember.user = userId
+      itemToRemember.price = ci.attributes.price;
+
+      fixedBoughtItem.date = itemDate;
+      itemToRemember.date = itemDate;
+
+      itemToRemember.file_download = {
+        id: ci.attributes.file_download.data.id,
+        file: ci.attributes.file_download.data.attributes.file.data.map((fileData:any) => ({...fileData.attributes, id: fileData.id}))
+      };
+      fixedBoughtItem.file_download = ci.attributes.file_download.data.id;
+      
+      fixedBoughtItem.status = "published";
+      fixedBoughtItem.publishedAt = itemDate;
+
+      itemsToRemember.push(itemToRemember);
+      return fixedBoughtItem;
+    })
+    console.log("cart items after: ", cartItems)
+    console.log("items to remember: ", itemsToRemember)
+
     if (userId && previousBoughtItems) {
-			const newBoughtItems = [...previousBoughtItems, ...cartItems]
+			const newBoughtItems = [...previousBoughtItems, ...itemsToRemember]
 			localStorage.setItem("boughtItems", JSON.stringify(newBoughtItems));
-      const boughtItemsIDs = newBoughtItems.map((nfd:any) => nfd.id);
-      updateUser(userId, {
-        bought_items: boughtItemsIDs
-      });
+      
+      // const boughtItemsIDs = newBoughtItems.map((nfd:any) => nfd.id);
+      // updateUser(userId, {
+      //   bought_items: boughtItemsIDs
+      // });
     }
   }
 
