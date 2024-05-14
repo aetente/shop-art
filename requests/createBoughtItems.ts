@@ -1,10 +1,10 @@
 import nookies from 'nookies';
 
-export async function updateUser(dataToUpdate: any) {
+export async function createBoughtItems(dataToUpdate: any) {
   try {
     const cookies = nookies.get();
     if (cookies['jwt']) {
-      const res = await fetch('http://localhost:1337/api/bought-items', {
+      const res = await fetch('http://localhost:1337/api/buy-items', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${cookies['jwt']}`,
@@ -12,6 +12,7 @@ export async function updateUser(dataToUpdate: any) {
         body: JSON.stringify(dataToUpdate)
       })
       const data = await res.json()
+      console.log("data", data)
       return true
     } else {
       throw "no jwt token"

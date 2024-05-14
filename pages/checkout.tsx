@@ -3,10 +3,15 @@ import { PayPalButtons } from '@paypal/react-paypal-js'
 import nookies, { destroyCookie } from 'nookies';
 import { updateUser } from '@/requests/updateUser';
 import { useShoppingCartContext } from '@/providers/ShoppinCartProvider';
+import { createBoughtItems } from '@/requests/createBoughtItems';
+import { useState } from 'react';
 
 function CheckoutPage() {
 
   const { cart, resetCart } = useShoppingCartContext();
+
+  const [purchaseStatus, setPurchaseStatus] = useState("idle");
+
   const total = cart.total;
 
   const cookies = nookies.get();
@@ -54,8 +59,8 @@ function CheckoutPage() {
         const name = orderData.payer.name.given_name;
 
         // doInvoice();
-        
-        addFileDownload();
+
+        addBoughtItem();
       })
       .catch((e) => {
         console.error("Approve error", e)
@@ -64,7 +69,7 @@ function CheckoutPage() {
   }
 
   const doInvoice = async () => {
-    
+
     return fetch("/api/invoice", {
       method: "POST",
       headers: {
@@ -82,30 +87,30 @@ function CheckoutPage() {
   }
 
   const addBoughtItem = async () => {
-        
+
     // destroyCookie(undefined, 'cart');
     // resetCart();  
 
-		// TODO: replace item id with file download id
-		let cartItems = cart.items
+    // TODO: replace item id with file download id
+    let cartItems = cart.items
     const boughtItemsString = localStorage.getItem("boughtItems");
-    const previousBoughtItems = boughtItemsString ? JSON.parse(boughtItemsString).filter((fd:any) => fd ? true : false) : [];
+    const previousBoughtItems = boughtItemsString ? JSON.parse(boughtItemsString).filter((fd: any) => fd ? true : false) : [];
     console.log("previousBoughtItems", previousBoughtItems)
     console.log("cart items before: ", cartItems)
-    
+
     const cookies = nookies.get();
     const userId = cookies['userId'];
 
     let itemsToRemember: any[] = []
 
-    cartItems = cartItems.map((ci:any, i: number) => {
-      let fixedBoughtItem:any = {};
-      let itemToRemember:any = {};
+    cartItems = cartItems.map((ci: any, i: number) => {
+      let fixedBoughtItem: any = {};
+      let itemToRemember: any = {};
       let itemDate = (new Date()).toISOString()
       // fixedBoughtItem = ci.attributes.file_download.data.attributes;
-      fixedBoughtItem.user = userId;
+      fixedBoughtItem.user = +userId;
       fixedBoughtItem.price = ci.attributes.price;
-      itemToRemember.user = userId
+      itemToRemember.user = +userId
       itemToRemember.price = ci.attributes.price;
 
       fixedBoughtItem.date = itemDate;
@@ -113,10 +118,10 @@ function CheckoutPage() {
 
       itemToRemember.file_download = {
         id: ci.attributes.file_download.data.id,
-        file: ci.attributes.file_download.data.attributes.file.data.map((fileData:any) => ({...fileData.attributes, id: fileData.id}))
+        file: ci.attributes.file_download.data.attributes.file.data.map((fileData: any) => ({ ...fileData.attributes, id: fileData.id }))
       };
-      fixedBoughtItem.file_download = ci.attributes.file_download.data.id;
-      
+      fixedBoughtItem["file-download"] = ci.attributes.file_download.data.id;
+
       fixedBoughtItem.status = "published";
       fixedBoughtItem.publishedAt = itemDate;
 
@@ -126,27 +131,33 @@ function CheckoutPage() {
     console.log("cart items after: ", cartItems)
     console.log("items to remember: ", itemsToRemember)
 
-    if (userId && previousBoughtItems) {
-			const newBoughtItems = [...previousBoughtItems, ...itemsToRemember]
-			localStorage.setItem("boughtItems", JSON.stringify(newBoughtItems));
-      
-      // const boughtItemsIDs = newBoughtItems.map((nfd:any) => nfd.id);
-      // updateUser(userId, {
-      //   bought_items: boughtItemsIDs
-      // });
+    if (userId) {
+      const newBoughtItems = [...previousBoughtItems, ...itemsToRemember]
+      localStorage.setItem("boughtItems", JSON.stringify(newBoughtItems));
+
+      let addedItems = false
+      // TODO: the problem is with backend endpoint
+      // I think it can't find user or file by id or both
+      addedItems = await createBoughtItems({ data: cartItems });
+      if (addedItems) {
+        setPurchaseStatus("success")
+      }
     }
   }
 
   return (
-		<div className='pt-24'>
-			<div>TOTAL: ${total}</div>
-      <PayPalButtons
-        createOrder={() => createOrder(Math.round(total * 100) / 100)}
-        onApprove={onApprove}
-      />
-      <button onClick={() => {
-        addBoughtItem()
-      }}>test add file</button>
+    <div className='pt-24'>
+      {purchaseStatus === "success" ? <p>Purchase Successful</p> : (<>
+
+        <div>TOTAL: ${total}</div>
+        <PayPalButtons
+          createOrder={() => createOrder(Math.round(total * 100) / 100)}
+          onApprove={onApprove}
+        />
+        <button onClick={() => {
+          addBoughtItem()
+        }}>test add file</button>
+      </>)}
     </div>
   )
 }
