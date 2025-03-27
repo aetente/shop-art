@@ -49,7 +49,7 @@ function Categories(props: Props) {
             }}
           >
             <img
-              src={"http://localhost:1337" + c.attributes.thumbnail.data.attributes.url}
+              src={process.env.NEXT_PUBLIC_STRIPE + c.attributes.thumbnail.data.attributes.url}
               alt={c.attributes.name}
               style={{
                 objectFit: 'cover',
@@ -66,7 +66,7 @@ function Categories(props: Props) {
 
   return (
     <div className='w-full grid grid-flow-column lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-2 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
-      {props.categoriesData.map(mapCategories)}
+      {props.categoriesData?.map(mapCategories) || ""}
     </div >
   )
 }

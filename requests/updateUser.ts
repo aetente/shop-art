@@ -4,7 +4,7 @@ export async function updateUser(userId:string, dataToUpdate: any) {
   try {
     const cookies = nookies.get();
     if (cookies['jwt']) {
-      const res = await fetch('http://localhost:1337/api/users/' + userId, {
+      const res = await fetch(process.env.NEXT_PUBLIC_STRIPE + '/api/users/' + userId, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${cookies['jwt']}`,

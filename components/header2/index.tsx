@@ -33,9 +33,9 @@ function Header() {
 				</div>
 					
 
-				<div className='flex items-center justify-between gap-2 font-sansCondensedBold'>
+				<div className='flex items-center justify-between gap-2 font-sansCondensedBold text-[#1d1d1d]'>
 					<div className='cursor-pointer font-sansCondensedBold'>PRODUCTS</div>
-					<div className='cursor-pointer font-sansCondensedBold'>CONRACT</div>
+					<div className='cursor-pointer font-sansCondensedBold'>CONTACT</div>
 					<div
 						className='cursor-pointer text-[#E31D27] font-sansCondensedBold'
 						onClick={() => {

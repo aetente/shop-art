@@ -18,7 +18,7 @@ function CartPage() {
               name={item.name}
               price={item.attributes.price}
               quantity={item.quantity}
-              img={"http://localhost:1337" + item.attributes.images.data[0].attributes.url}
+              img={process.env.NEXT_PUBLIC_STRIPE + item.attributes.images.data[0].attributes.url}
               id={item.id}
             />
           )

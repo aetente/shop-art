@@ -70,7 +70,7 @@ function Items() {
             }}
           >
             <img
-              src={"http://localhost:1337" + c?.attributes?.images?.data[0]?.attributes?.url}
+              src={process.env.NEXT_PUBLIC_STRIPE + c?.attributes?.images?.data[0]?.attributes?.url}
               alt={c.attributes.name}
               style={{
                 objectFit: 'cover',

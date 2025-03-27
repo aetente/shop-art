@@ -34,10 +34,10 @@ function Account(props: any) {
 						'Authorization': `Token ${cookies['jwt']}`
 					}
 				}
-				// await fetch('http://localhost:1337/uploads/wordpress_6_2_2_dfdebd56fe.zip', options)
-				await fetch('http://localhost:1337' + fileUrl, options)
-					// await fetch('http://localhost:1337/uploads/blot2_strech_288a56fce2.png', options)
-					// await fetch('http://localhost:1337/api/upload/files/1', options)
+				// await fetch(process.env.NEXT_PUBLIC_STRIPE/uploads/wordpress_6_2_2_dfdebd56fe.zip', options)
+				await fetch(process.env.NEXT_PUBLIC_STRIPE + fileUrl, options)
+					// await fetch(process.env.NEXT_PUBLIC_STRIPE/uploads/blot2_strech_288a56fce2.png', options)
+					// await fetch(process.env.NEXT_PUBLIC_STRIPE/api/upload/files/1', options)
 					.then(response => response.blob())
 					.then(blob => URL.createObjectURL(blob))
 					.then(url => {

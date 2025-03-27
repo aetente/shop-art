@@ -4,7 +4,7 @@ import nookies, { destroyCookie } from 'nookies';
 import { updateUser } from '@/requests/updateUser';
 import { useShoppingCartContext } from '@/providers/ShoppinCartProvider';
 import { createBoughtItems } from '@/requests/createBoughtItems';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function CheckoutPage() {
 
@@ -16,6 +16,8 @@ function CheckoutPage() {
 
   const cookies = nookies.get();
   const userId = cookies['userId'];
+
+  useEffect(() => {console.log(userId)}, [])
 
   const createOrder = (price: number) => {
     return fetch("/api/create-paypal-order", {
@@ -131,6 +133,7 @@ function CheckoutPage() {
     console.log("cart items after: ", cartItems)
     console.log("items to remember: ", itemsToRemember)
 
+    console.log(userId)
     if (userId) {
       const newBoughtItems = [...previousBoughtItems, ...itemsToRemember]
       localStorage.setItem("boughtItems", JSON.stringify(newBoughtItems));

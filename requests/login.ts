@@ -4,7 +4,7 @@ import { setCookie } from 'nookies'
 export async function logIn(identifier: any, password: any) {
 
   try {
-    const res = await fetch('http://localhost:1337/api/auth/local', {
+    const res = await fetch(process.env.NEXT_PUBLIC_STRIPE + '/api/auth/local', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export async function logIn(identifier: any, password: any) {
     }
 
 
-    const meRes = await fetch('http://localhost:1337/api/users/me?populate[bought_items][populate][file_download][populate][0]=file', {
+    const meRes = await fetch(process.env.NEXT_PUBLIC_STRIPE + '/api/users/me?populate[bought_items][populate][file_download][populate][0]=file', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${data.jwt}`,

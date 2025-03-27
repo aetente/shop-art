@@ -2,7 +2,7 @@
 
 export async function signUp(email:string, password:string) {
   try {
-    const res = await fetch('http://localhost:1337/api/auth/local/register', {
+    const res = await fetch(process.env.NEXT_PUBLIC_STRIPE + '/api/auth/local/register', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",

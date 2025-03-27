@@ -4,7 +4,7 @@ export async function createBoughtItems(dataToUpdate: any) {
   try {
     const cookies = nookies.get();
     if (cookies['jwt']) {
-      const res = await fetch('http://localhost:1337/api/buy-items', {
+      const res = await fetch(process.env.NEXT_PUBLIC_STRIPE + '/api/buy-items', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${cookies['jwt']}`,

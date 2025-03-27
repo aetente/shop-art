@@ -4,7 +4,7 @@ export default async function handler (req:any, res:any) {
   const { username, password, email } = req.body;
 
   try {
-    const response = await fetch('http://localhost:1337/auth/local/register',
+    const response = await fetch(process.env.NEXT_PUBLIC_STRIPE + '/auth/local/register',
       {
         method: 'POST',
         body: JSON.stringify({
