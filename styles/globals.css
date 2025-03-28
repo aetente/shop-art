@@ -38,7 +38,8 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  /* color: rgb(var(--foreground-rgb)); */
+  color: #1d1d1d;
   background-color: white;
   /* background: linear-gradient(
       to bottom,

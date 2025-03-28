@@ -6,43 +6,176 @@ import { useEffect, useState } from 'react';
 
 const itemsData = [
   {
-    name: 'item',
-    img: '/test/test_image1.jpg',
+    id: "test",
     attributes: {
-      price: 1.34
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
     }
   },
   {
-    name: 'item',
-    img: '/test/test_image1.jpg',
+    id: "test",
     attributes: {
-      price: 1.34
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
     }
   },
   {
-    name: 'item',
-    img: '/test/test_image1.jpg',
+    id: "test",
     attributes: {
-      price: 1.34
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
     }
   },
   {
-    name: 'item',
-    img: '/test/test_image1.jpg',
+    id: "test",
     attributes: {
-      price: 1.34
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
     }
   },
   {
-    name: 'item',
-    img: '/test/test_image1.jpg',
+    id: "test",
     attributes: {
-      price: 1.34
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
     }
   },
+  {
+    id: "test",
+    attributes: {
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    id: "test",
+    attributes: {
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    id: "test",
+    attributes: {
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    id: "test",
+    attributes: {
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    id: "test",
+    attributes: {
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    id: "test",
+    attributes: {
+      name: 'item',
+      images: {
+        data: [
+          {
+            attributes: {
+              url: '/test/test_image1.jpg'
+            }
+          }
+        ]
+      }
+    }
+  },
+
 ]
 
 function Items() {
+
+  const fakeData = process.env.NEXT_PUBLIC_ENVIRONMENT !== "production";
 
   const router = useRouter()
 
@@ -70,7 +203,7 @@ function Items() {
             }}
           >
             <img
-              src={process.env.NEXT_PUBLIC_STRIPE + c?.attributes?.images?.data[0]?.attributes?.url}
+              src={fakeData ? c?.attributes?.images?.data[0]?.attributes?.url : process.env.NEXT_PUBLIC_STRIPE + c?.attributes?.images?.data[0]?.attributes?.url}
               alt={c.attributes.name}
               style={{
                 objectFit: 'cover',
@@ -93,6 +226,8 @@ function Items() {
       setIsLoading(false)
     } catch (e) {
       console.error('error getting products', e);
+      setProducts(itemsData)
+      setIsLoading(false)
     }
   }
 
@@ -105,7 +240,7 @@ function Items() {
   return (
     <div>
       {isLoading ? (<div>LOADING...</div>) :
-        <div className='w-full grid grid-flow-column grid-cols-6 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
+        <div className='w-full grid grid-flow-column grid-cols-6 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-8'>
           {(products || []).map(mapItems)}
         </div >
       }

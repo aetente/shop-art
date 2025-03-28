@@ -7,30 +7,77 @@ interface Props {
 
 const categoriesData = [
   {
-    name: 'category',
-    img: '/test/test_image1.jpg'
+    id: "test",
+    attributes: {
+      name: 'category',
+      thumbnail: {
+        data: {
+          attributes: {
+            url: '/test/test_image1.jpg'
+          }
+        }
+      }
+    }
   },
   {
-    name: 'category',
-    img: '/test/test_image1.jpg'
+    id: "test",
+    attributes: {
+      name: 'category',
+      thumbnail: {
+        data: {
+          attributes: {
+            url: '/test/test_image1.jpg'
+          }
+        }
+      }
+    }
   },
   {
-    name: 'category',
-    img: '/test/test_image1.jpg'
+    id: "test",
+    attributes: {
+      name: 'category',
+      thumbnail: {
+        data: {
+          attributes: {
+            url: '/test/test_image1.jpg'
+          }
+        }
+      }
+    }
   },
   {
-    name: 'category',
-    img: '/test/test_image1.jpg'
+    id: "test",
+    attributes: {
+      name: 'category',
+      thumbnail: {
+        data: {
+          attributes: {
+            url: '/test/test_image1.jpg'
+          }
+        }
+      }
+    }
   },
   {
-    name: 'category',
-    img: '/test/test_image1.jpg'
+    id: "test",
+    attributes: {
+      name: 'category',
+      thumbnail: {
+        data: {
+          attributes: {
+            url: '/test/test_image1.jpg'
+          }
+        }
+      }
+    }
   },
 ]
 
 function Categories(props: Props) {
 
   const router = useRouter()
+
+  const fakeData = process.env.NEXT_PUBLIC_ENVIRONMENT !== "production";
 
   const mapCategories = (c:any, i:number) => {
     return (
@@ -49,7 +96,7 @@ function Categories(props: Props) {
             }}
           >
             <img
-              src={process.env.NEXT_PUBLIC_STRIPE + c.attributes.thumbnail.data.attributes.url}
+              src={fakeData && c.attributes.thumbnail.data.attributes.url || process.env.NEXT_PUBLIC_STRIPE + c.attributes.thumbnail.data.attributes.url}
               alt={c.attributes.name}
               style={{
                 objectFit: 'cover',
@@ -66,7 +113,7 @@ function Categories(props: Props) {
 
   return (
     <div className='w-full grid grid-flow-column lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-2 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-4'>
-      {props.categoriesData?.map(mapCategories) || ""}
+      {(props.categoriesData || categoriesData)?.map(mapCategories) || ""}
     </div >
   )
 }
