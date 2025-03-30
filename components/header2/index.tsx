@@ -39,6 +39,11 @@ function Header() {
 							router.push('/items')
 						}}
 					>PRODUCTS</div>
+					<div className='cursor-pointer font-sansCondensedBold'
+						onClick={() => {
+							router.push('/cart')
+						}}
+					>CART</div>
 					<div className='cursor-pointer font-sansCondensedBold'>CONTACT</div>
 					<div
 						className='cursor-pointer text-[#E31D27] font-sansCondensedBold'

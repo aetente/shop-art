@@ -8,6 +8,7 @@ const itemsData = [
   {
     id: "test",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -21,8 +22,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test1",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -36,8 +38,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test2",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -51,8 +54,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test3",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -66,8 +70,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test4",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -81,8 +86,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test5",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -96,8 +102,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test6",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -111,8 +118,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test7",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -126,8 +134,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test8",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -141,8 +150,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test9",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [
@@ -156,8 +166,9 @@ const itemsData = [
     }
   },
   {
-    id: "test",
+    id: "test10",
     attributes: {
+      price: 10,
       name: 'item',
       images: {
         data: [

@@ -160,6 +160,9 @@ function CheckoutPage() {
         <button onClick={() => {
           addBoughtItem()
         }}>test add file</button>
+        <button className='pl-4' onClick={() => {
+          resetCart()
+        }}>test reset cart</button>
       </>)}
     </div>
   )

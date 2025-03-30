@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 function CartPage() {
   const router = useRouter();
 
+  const isFake = process.env.NEXT_PUBLIC_ENVIRONMENT !== "prod";
+
   const { cart } = useShoppingCartContext();
 
   return (
@@ -18,7 +20,7 @@ function CartPage() {
               name={item.name}
               price={item.attributes.price}
               quantity={item.quantity}
-              img={process.env.NEXT_PUBLIC_STRIPE + item.attributes.images.data[0].attributes.url}
+              img={isFake ? item.attributes.images.data[0].attributes.url : process.env.NEXT_PUBLIC_STRIPE + item.attributes.images.data[0].attributes.url}
               id={item.id}
             />
           )
