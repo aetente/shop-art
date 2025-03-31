@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Cart from '../cart';
 import { useUserContext } from '@/providers/UserProvider';
+import MiniCart from '../minicart';
 
 function Header() {
 
@@ -52,6 +53,7 @@ function Header() {
 						}}
 					>{isLoggedIn ? "MY ACCOUNT" : "LOG IN"}</div>
 				</div>
+				<MiniCart />
 			</div>
 		</div>
 	)

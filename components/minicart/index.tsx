@@ -7,6 +7,8 @@ import Image from "next/image";
 function CartItem({ data }: any) {
   const { addItem, removeItem } = useShoppingCartContext();
   const { quantity, attributes, name, img } = data;
+  
+  const isFake = process.env.NEXT_PUBLIC_ENVIRONMENT !== "prod";
 
   return (
     <div className="p-6 flex flex-wrap justify-between border-b border-blueGray-800">
@@ -19,7 +21,7 @@ function CartItem({ data }: any) {
           >
             <Image
               layout='fill'
-              src={img}
+              src={isFake ? attributes.images.data[0].attributes.url : process.env.NEXT_PUBLIC_STRIPE + attributes.images.data[0].attributes.url}
               alt={name}
               style={{
                 objectFit: 'cover',
@@ -58,7 +60,7 @@ function CartItem({ data }: any) {
   );
 }
 
-function Cart() {
+function MiniCart() {
   const router = useRouter();
   const { cart, showCart, setShowCart } = useShoppingCartContext();
   const { isLoggedIn } = useUserContext()
@@ -75,7 +77,7 @@ function Cart() {
   }
 
   return (
-    <section className="absolute right-0 top-[32px] min-w-[320px]">
+    <section className="absolute right-1 top-[32px] min-w-[320px]">
       <div className="relative">
         {showCart && (
           <div className="rounded-lg co bg-gray-800">
@@ -84,6 +86,10 @@ function Cart() {
                 <h6 className="font-bold text-2xl text-white mb-0">
                   Your Cart
                 </h6>
+                <h5
+                  className="cursor-pointer font-bold text-2xl text-white mb-0"
+                  onClick={() => setShowCart(false)}
+                >X</h5>
               </div>
 
               <div>
@@ -117,4 +123,4 @@ function Cart() {
   );
 }
 
-export default Cart;
+export default MiniCart;
