@@ -3,6 +3,7 @@ import { getProducts } from '@/requests/products';
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
+import Loader from '../loader';
 
 const itemsData = [
   {
@@ -250,7 +251,7 @@ function Items() {
 
   return (
     <div>
-      {isLoading ? (<div>LOADING...</div>) :
+      {isLoading ? (<div className='w-full flex justify-center align-middle'><Loader /></div>) :
         <div className='w-full grid grid-flow-column grid-cols-6 auto-rows-[1fr] auto-cols-[1fr] gap-x-4 gap-y-8'>
           {(products || []).map(mapItems)}
         </div >

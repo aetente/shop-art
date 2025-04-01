@@ -1,5 +1,6 @@
 import AboutMe from '@/components/about-me'
 import Categories from '@/components/categories'
+import Loader from '@/components/loader'
 import SubHeader from '@/components/sub-header'
 import { getCategories } from '@/requests/categories'
 import Image from 'next/image'
@@ -34,7 +35,7 @@ export default function Home() {
       </div>
 
       <div className="relative w-full mt-10 max-w-[1228px] top-[-96px] bg-white p-8 pt-4">
-        {loading ? (<div>LOADING</div>) : (
+        {loading ? (<div className='w-full flex justify-center align-middle'><Loader /></div>) : (
           <Categories categoriesData={categories?.data} />
         )}
         <div className="relative w-full mt-20">
