@@ -9,6 +9,25 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    keyframes: {
+      'bounce2': {
+        '0%': {
+          transform: 'translateY(-75%)',
+          'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)'
+        },
+        '50%': {
+          transform: 'none',
+          'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)'
+        },
+        '100%': {
+          transform: 'translateY(-75%)',
+          'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)'
+        }
+      }
+    },
+    animation: {
+      'better-bounce': 'bounce2 1s infinite',
+    },
     fontFamily: {
       sansCondensed: ['var(--font-sans-condensed) !important'],
       sansCondensedBold: ['var(--font-sans-condensed-bold) !important'],
