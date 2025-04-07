@@ -3,6 +3,7 @@ import { logIn } from "@/requests/login";
 import { useRouter } from "next/router"
 import { useState } from "react";
 import Account from "@/components/account";
+import Loader from "@/components/loader";
 
 function Login() {
 
@@ -13,23 +14,28 @@ function Login() {
 
   const { isLoggedIn, setLoggedIn } = useUserContext()
 
+  const [loading, setLoading] = useState(false)
+
   const router = useRouter()
 
   const doLogIn = async () => {
     if (email && password) {
+      setLoading(true)
       const registrationSuccess = await logIn(email, password)
       if (registrationSuccess || isFake) {
         setLoggedIn();
-        router.push('/');
+        // router.push('/');
       } else {
         alert('error during login');
       }
+      setLoading(false)
     }
   }
 
   return (
     !isLoggedIn ? (
-    <div className='min-h-screen flex justify-center items-center pt-20'>
+    <div className='relative min-h-screen flex justify-center items-center pt-20'>
+      {loading ? (<div className='absolute w-full flex justify-center items-center backdrop-blur-sm h-full'><Loader /></div>) :   <div/>}
       <div className="min-h-[360px] w-full max-w-3xl m-auto p-12 flex flex-col justify-center gap-2">
           <p className="font-openSans text-black font-extrabold">Login</p>
           <p className="font-openSans text-black mt-2">Email address</p>

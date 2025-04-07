@@ -7,6 +7,7 @@ import { createBoughtItems } from '@/requests/createBoughtItems';
 import { useEffect, useState } from 'react';
 
 function CheckoutPage() {
+  const fakeData = process.env.NEXT_PUBLIC_ENVIRONMENT !== "production";
 
   const { cart, resetCart } = useShoppingCartContext();
 
@@ -17,7 +18,7 @@ function CheckoutPage() {
   const cookies = nookies.get();
   const userId = cookies['userId'];
 
-  useEffect(() => {console.log(userId)}, [])
+  useEffect(() => { console.log(userId) }, [])
 
   const createOrder = (price: number) => {
     return fetch("/api/create-paypal-order", {
@@ -117,12 +118,20 @@ function CheckoutPage() {
 
       fixedBoughtItem.date = itemDate;
       itemToRemember.date = itemDate;
-
-      itemToRemember.file_download = {
-        id: ci.attributes.file_download.data.id,
-        file: ci.attributes.file_download.data.attributes.file.data.map((fileData: any) => ({ ...fileData.attributes, id: fileData.id }))
-      };
-      fixedBoughtItem["file-download"] = ci.attributes.file_download.data.id;
+      console.log(ci)
+      if (!fakeData) {
+        itemToRemember.file_download = {
+          id: ci.attributes.file_download.data.id,
+          file: ci.attributes.file_download.data.attributes.file.data.map((fileData: any) => ({ ...fileData.attributes, id: fileData.id }))
+        };
+        fixedBoughtItem["file-download"] = ci.attributes.file_download.data.id;
+      } else {
+        itemToRemember.file_download = {
+          id: ci.name,
+          file: ci.attributes.images.data.map((fileData: any, i: number) => ({ ...fileData.attributes, id: 'test'+i }))
+        };
+        fixedBoughtItem["file-download"] = ci.name;
+      }
 
       fixedBoughtItem.status = "published";
       fixedBoughtItem.publishedAt = itemDate;
@@ -141,8 +150,10 @@ function CheckoutPage() {
       let addedItems = false
       // TODO: the problem is with backend endpoint
       // I think it can't find user or file by id or both
-      addedItems = await createBoughtItems({ data: cartItems });
-      if (addedItems) {
+      if (!fakeData) {
+        addedItems = await createBoughtItems({ data: cartItems });
+      }
+      if (fakeData || addedItems) {
         setPurchaseStatus("success")
       }
     }
