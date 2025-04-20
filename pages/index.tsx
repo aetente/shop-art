@@ -25,13 +25,20 @@ export default function Home() {
       
       {/* <SubHeader /> */}
 
-      <div className="relative w-screen min-h-[600px] h-96">
-        <Image
+      <div
+        className="relative w-screen min-h-[600px] h-96"
+        style={{
+          backgroundImage: 'url(/test/test_image1.jpg)',
+          objectFit: 'cover',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* <Image
           layout='fill'
           src="/test/test_image1.jpg"
           alt='ACCOUNT'
-          style={{ objectFit: 'cover' }}
-        />
+          style={{ objectFit: 'cover', backgroundAttachment: 'fixed' }}
+        /> */}
       </div>
 
       <div className="relative w-full mt-10 max-w-[1228px] top-[-96px] bg-white p-8 pt-4">
