@@ -53,7 +53,7 @@ function Account(props: any) {
 	const fillInBoughtItems = () => {
 
 		const boughtItemsString = localStorage.getItem("boughtItems");
-		console.log(boughtItemsString)
+		console.log("boughtItemsString", boughtItemsString)
 		const boughtItems = boughtItemsString && boughtItemsString !== "undefined" ? JSON.parse(boughtItemsString).filter((fd: any) => fd ? true : false) : [];
 		return boughtItems.map((fd: any, i: number) => {
 			console.log("fd", fd)

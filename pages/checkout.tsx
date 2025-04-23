@@ -143,7 +143,7 @@ function CheckoutPage() {
     console.log("items to remember: ", itemsToRemember)
 
     console.log(userId)
-    if (userId) {
+    if (userId || fakeData) {
       const newBoughtItems = [...previousBoughtItems, ...itemsToRemember]
       localStorage.setItem("boughtItems", JSON.stringify(newBoughtItems));
 
